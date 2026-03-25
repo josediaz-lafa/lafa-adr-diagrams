@@ -447,7 +447,7 @@ graph TD
           <tr><td>ORM</td><td>Drizzle</td><td>Native multi-schema (pgSchema). SQL-close. Portable migrations.</td></tr>
           <tr><td>Auth</td><td>Custom (Passport.js + JWT) + RLS</td><td>No Supabase Auth. Vendor lock-in burned us (Replit).</td></tr>
           <tr><td>Hosting</td><td>Railway &rarr; GCP Cloud Run</td><td>Already configured. Auto-deploy. $25/mo.</td></tr>
-          <tr><td>Testing</td><td>Vitest (unit + integration)</td><td>Payroll accuracy is non-negotiable (P1). No E2E in Q2.</td></tr>
+          <tr><td>Testing</td><td>Vitest (unit + integration) + Playwright (E2E, AI-authored)</td><td>Payroll accuracy is non-negotiable (P1). E2E covers critical workflow chains only — payroll golden path, LTO application. AI-authored via Playwright MCP.</td></tr>
           <tr><td>Observability</td><td>pino + Sentry + correlation IDs</td><td>Trace payroll failures without reading code line by line.</td></tr>
           <tr><td>Integrations</td><td>Adapter pattern (CSV &rarr; API)</td><td>One interface per system. Swap implementation, not logic.</td></tr>
           <tr><td>AI</td><td>Inline-first (ClaudeClient)</td><td>4h vs 16h. Extract to full module when agent #2 approved.</td></tr>
