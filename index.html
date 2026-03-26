@@ -855,7 +855,7 @@ graph TD
           <tr><td>Architecture</td><td>Modular monolith (Nest.js)</td><td>Hybrid (monolith + satellites)</td><td>Fully decomposed microservices</td></tr>
           <tr><td>Database</td><td>Supabase (managed Postgres)</td><td>GCP Cloud SQL + BigQuery</td><td>Cloud SQL per-tenant + BigQuery</td></tr>
           <tr><td>Hosting</td><td>Railway ($25/mo)</td><td>Cloud Run ($130-300/mo)</td><td>Cloud Run per-service</td></tr>
-          <tr><td>Events</td><td>CSV batch (weekly)</td><td>Pub/Sub (real-time)</td><td>Pub/Sub + Cloud Tasks</td></tr>
+          <tr><td>Events</td><td>CSV batch + APIs (DiDi)</td><td>Pub/Sub (real-time)</td><td>Pub/Sub + Cloud Tasks</td></tr>
           <tr><td>AI / ML</td><td>Claude API inline ($2-50/mo)</td><td>Vertex AI inference</td><td>Production ML models</td></tr>
           <tr><td>Multi-tenancy</td><td>Single org (org_id ready)</td><td>Org-scoped RLS active</td><td>Per-tenant DB for large customers</td></tr>
           <tr><td>Migration trigger</td><td>&mdash;</td><td>Data &gt;50GB, first external customer, or GCP credits</td><td>Team &gt;4, modules &gt;5</td></tr>
