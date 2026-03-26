@@ -13,7 +13,7 @@
 
     body {
       font-family: 'Inter Tight', sans-serif;
-      background: #0F0F0F;
+      background: #000000;
       color: #FFFFFF;
       padding: 48px 20px;
       display: flex;
@@ -36,7 +36,7 @@
     header .subtitle {
       font-size: 18px;
       font-weight: 500;
-      color: #FF5500;
+      color: #DB6336;
       margin-top: 4px;
     }
 
@@ -65,13 +65,13 @@
     .card-header {
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 2px solid #FF5500;
+      border-bottom: 2px solid #DB6336;
     }
 
     .card-header .adr-tag {
       font-size: 11px;
       font-weight: 600;
-      color: #FF5500;
+      color: #DB6336;
       text-transform: uppercase;
       letter-spacing: 1.5px;
     }
@@ -119,7 +119,7 @@
 
     .card-footnote li::before {
       content: "›";
-      color: #FF5500;
+      color: #DB6336;
       margin-right: 6px;
       font-weight: 600;
     }
@@ -133,7 +133,7 @@
 
     .layer-group {
       background: #1F1510;
-      border: 2px solid #FF5500;
+      border: 2px solid #DB6336;
       border-radius: 8px;
       padding: 12px;
     }
@@ -177,15 +177,15 @@
     }
 
     .mod.active {
-      background: #FF5500;
+      background: #DB6336;
       color: #FFFFFF;
-      border: 2px solid #FF5500;
+      border: 2px solid #DB6336;
     }
 
     .mod.future {
       background: #1A1A1A;
       color: #9CA3AF;
-      border: 2px dashed #FF5500;
+      border: 2px dashed #DB6336;
     }
 
     .phase-table {
@@ -196,7 +196,7 @@
     }
 
     .phase-table th {
-      background: #FF5500;
+      background: #DB6336;
       color: #FFFFFF;
       padding: 10px 12px;
       text-align: left;
@@ -243,7 +243,7 @@
     .toc-title {
       font-size: 11px;
       font-weight: 600;
-      color: #FF5500;
+      color: #DB6336;
       text-transform: uppercase;
       letter-spacing: 1.5px;
       margin-bottom: 12px;
@@ -275,8 +275,8 @@
     .toc a:hover { color: #FFFFFF; }
 
     .toc a.active {
-      color: #FF5500;
-      border-left-color: #FF5500;
+      color: #DB6336;
+      border-left-color: #DB6336;
     }
 
     @media (max-width: 1024px) {
@@ -313,7 +313,12 @@
     <a href="#module-arch">Module Architecture</a>
     <a href="#adapter-pattern">Adapter Pattern</a>
     <a href="#auth-rls">Auth &amp; RLS</a>
-    <div class="toc-section">DAE / Payroll</div>
+    <div class="toc-section">Cross-Cutting</div>
+    <a href="#testing-strategy">Testing Strategy</a>
+    <a href="#observability">Observability</a>
+    <a href="#privacy-consent">Privacy &amp; Consent</a>
+    <a href="#containerization">Containerization</a>
+    <div class="toc-section">Payroll</div>
     <a href="#payroll-flow">Payroll Pipeline</a>
     <a href="#payroll-rules">Rules Classification</a>
     <a href="#payroll-lifecycle">Payroll Lifecycle</a>
@@ -341,16 +346,16 @@ graph TD
     P1["<b>P1: Data Integrity Over Performance</b><br/>Always wins — financial accuracy is non-negotiable"]
     P2["<b>P2: Portability Over Features</b><br/>No vendor lock-in — pg_dump and leave in 24h"]
     P3["<b>P3: Velocity Over Architecture</b><br/>Ship Q2, refactor later"]
-    P5["<b>P5: Module Isolation Over Code Reuse</b><br/>Each module owns its schema and interfaces"]
     P4["<b>P4: Managed Services Over Custom Infra</b><br/>1.5 devs cannot run Kubernetes"]
+    P5["<b>P5: Module Isolation Over Code Reuse</b><br/>Each module owns its schema and interfaces"]
 
-    P1 --- P2 --- P3 --- P5 --- P4
+    P1 --- P2 --- P3 --- P4 --- P5
 
-    style P1 fill:#FF5500,stroke:#FF5500,stroke-width:3px,color:#FFFFFF
-    style P2 fill:#CC4400,stroke:#CC4400,stroke-width:2px,color:#FFFFFF
-    style P3 fill:#993300,stroke:#993300,stroke-width:2px,color:#FFFFFF
-    style P5 fill:#662200,stroke:#662200,stroke-width:1px,color:#FFFFFF
-    style P4 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
+    style P1 fill:#DB6336,stroke:#DB6336,stroke-width:3px,color:#FFFFFF
+    style P2 fill:#B5522D,stroke:#B5522D,stroke-width:2px,color:#FFFFFF
+    style P3 fill:#8F4124,stroke:#8F4124,stroke-width:2px,color:#FFFFFF
+    style P4 fill:#69301B,stroke:#69301B,stroke-width:1px,color:#FFFFFF
+    style P5 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Five ranked principles resolve conflicts. <strong>Why:</strong> Financial accuracy (P1) can never be traded for speed or features.</p>
     </div>
@@ -399,29 +404,29 @@ graph TD
     didiapi -. "Pull API (future)" .-> monolith
     kiban -- "SIC query (JSON)" --> monolith
 
-    monolith -. "CSV export (manual)" .-> runa
+    monolith -. "CSV export (Q3)" .-> runa
     monolith -- "unhandled exceptions" --> sentry
 
     monolith -- "Drizzle ORM queries<br/>(SET LOCAL app.user_id)" --> db
-    db -- "read replica" --> metabase
+    db -- "direct query" --> metabase
 
-    style clients fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style clients fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style inputs fill:#1A1A1A,stroke:#333333,stroke-width:1px
-    style railway fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style railway fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style outputs fill:#1A1A1A,stroke:#333333,stroke-width:1px
     style supabase fill:#1A1A1A,stroke:#333333,stroke-width:2px
     style bi fill:#1A1A1A,stroke:#333333,stroke-width:1px
 
-    style admin fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style whatsapp fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
-    style monolith fill:#FF5500,stroke:#FF5500,stroke-width:2px,color:#FFFFFF
-    style didi fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style didiapi fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
-    style kiban fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style runa fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
-    style sentry fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style db fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style metabase fill:#FF5500,stroke:#FF5500,color:#FFFFFF
+    style admin fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style whatsapp fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style monolith fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style didi fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style didiapi fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style kiban fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style runa fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style sentry fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style db fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style metabase fill:#DB6336,stroke:#DB6336,color:#FFFFFF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Nest.js monolith on Railway + Supabase Postgres with 6 external integrations. <strong>Why:</strong> 1.5 devs cannot operate distributed infrastructure.</p>
     </div>
@@ -453,7 +458,7 @@ graph TD
         <div class="layer-group" style="grid-column: 1 / 3">
           <div class="layer-label">Intelligence Layer</div>
           <div class="layer-modules">
-            <div class="mod future">agents<span>Q2-Q3</span></div>
+            <div class="mod future">agents<span>Q3+</span></div>
           </div>
         </div>
         <div class="layer-group" style="grid-column: 3 / 5">
@@ -521,10 +526,10 @@ graph TD
           <tr><td>State machines</td><td>Union type + transition map</td><td>Consistent across modules. Compiler catches invalid states.</td></tr>
         </tbody>
       </table>
-      <p class="card-footnote"><strong>Decision:</strong> 13 architecture decisions documented as ADRs. <strong>Why:</strong> Every choice is traceable, reversible, and justified — no tribal knowledge.</p>
+      <p class="card-footnote"><strong>Decision:</strong> 20 architecture decisions + 5 addenda documented as ADRs — 13 key areas shown above. <strong>Why:</strong> Every choice is traceable, reversible, and justified — no tribal knowledge.</p>
     </div>
 
-    <!-- 5. Infrastructure Evolution (Phase Comparison Table) -->
+    <!-- 5. Infrastructure Evolution -->
     <div class="card" id="phase-table">
       <div class="card-header">
         <span class="adr-tag">Architecture Evolution</span>
@@ -550,14 +555,13 @@ graph TD
           <tr><td>Events</td><td>CSV batch (weekly)</td><td>Pub/Sub (real-time)</td><td>Pub/Sub + Cloud Tasks</td></tr>
           <tr><td>AI / ML</td><td>Claude API inline ($40/mo)</td><td>Vertex AI inference</td><td>Production ML models</td></tr>
           <tr><td>Multi-tenancy</td><td>Single org (org_id ready)</td><td>Org-scoped RLS active</td><td>Per-tenant DB for large customers</td></tr>
-          <tr><td>Infra cost/mo</td><td>$293-443</td><td>$790-1,290 (GCP credits)</td><td>~$7,000</td></tr>
           <tr><td>Migration trigger</td><td>&mdash;</td><td>Data &gt;50GB, first external customer, or GCP credits</td><td>Team &gt;4, modules &gt;5</td></tr>
         </tbody>
       </table>
-      <p class="card-footnote"><strong>Decision:</strong> Trigger-based migration — metrics drive architecture changes, not calendar dates. <strong>Why:</strong> Premature migration wastes the scarcest resource: developer time.</p>
+      <p class="card-footnote"><strong>Decision:</strong> Trigger-based migration — metrics drive architecture changes, not calendar dates. <strong>Why:</strong> Premature migration wastes the scarcest resource: developer time. See Cost Breakdown below for detailed budget.</p>
     </div>
 
-    <!-- 5. Infrastructure Migration Path -->
+    <!-- 6. Infrastructure Migration Path -->
     <div class="card" id="migration-path">
       <div class="card-header">
         <span class="adr-tag">ADR-002</span>
@@ -574,13 +578,13 @@ flowchart LR
     supabase -- "pg_dump — same engine" --> gcp
 
     style stage0 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
-    style supabase fill:#FF5500,stroke:#FF5500,stroke-width:2px,color:#FFFFFF
-    style gcp fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
+    style supabase fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style gcp fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Supabase today, GCP Cloud SQL when triggers hit — same Postgres engine throughout. <strong>Why:</strong> pg_dump portability (P2) means zero application code changes on migration.</p>
     </div>
 
-    <!-- 5b. Cost Breakdown -->
+    <!-- 7. Cost Breakdown -->
     <div class="card" id="cost-breakdown">
       <div class="card-header">
         <span class="adr-tag">Investment</span>
@@ -621,18 +625,18 @@ flowchart LR
             <td>$50+/mo<br/><span style="font-size:11px;color:#9CA3AF">5+ seats</span></td>
             <td>$100+/mo</td>
           </tr>
-          <tr style="border-top:2px solid #FF5500">
-            <td><strong style="color:#FF5500">Total</strong></td>
-            <td><strong style="color:#FF5500">$425-445/mo</strong></td>
-            <td><strong style="color:#FF5500">$870-1,420/mo</strong></td>
-            <td><strong style="color:#FF5500">$4,600+/mo</strong></td>
+          <tr style="border-top:2px solid #DB6336">
+            <td><strong style="color:#DB6336">Total</strong></td>
+            <td><strong style="color:#DB6336">$425-445/mo</strong></td>
+            <td><strong style="color:#DB6336">$870-1,420/mo</strong></td>
+            <td><strong style="color:#DB6336">$4,600+/mo</strong></td>
           </tr>
         </tbody>
       </table>
       <p class="card-footnote"><strong>Decision:</strong> Dev tools (Claude Max) are the largest investment at $300/mo — AI-first velocity is the strategy. <strong>Why:</strong> Infrastructure stays under $70/mo in Phase 1 thanks to managed services. The bet is on developer productivity, not infrastructure.</p>
     </div>
 
-    <!-- 5c. AI / MCP Architecture -->
+    <!-- 8. AI / MCP Architecture -->
     <div class="card" id="ai-architecture">
       <div class="card-header">
         <span class="adr-tag">ADR-014a + MCP</span>
@@ -704,32 +708,32 @@ graph TD
 
     client --> agents
 
-    style dev fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style cc fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style cursor fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style dev fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style cc fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style cursor fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
 
-    style pw fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style fg fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style ln fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style sb fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style rl fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style gh fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style cd fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style future1 fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
+    style pw fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style fg fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style ln fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style sb fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style rl fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style gh fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style cd fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style future1 fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
 
-    style pay fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style dae fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style lto fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style client fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style adapters fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style pay fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style dae fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style lto fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style client fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style adapters fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
 
-    style schemas fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
+    style schemas fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
 
-    style exp fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style ops fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style ltq fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style col fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
-    style cs fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
+    style exp fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style ops fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style ltq fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style col fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style cs fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> AI-first development with MCP servers multiplies a 1.5-dev team into enterprise-grade output. <strong>Why:</strong> Claude Code + MCP gives each developer access to testing, design, project management, and database tools through a single interface — no context switching, no manual integration.
         <ul style="margin-top:8px;padding-left:16px;">
@@ -749,12 +753,12 @@ graph TD
     <!-- ACT 2: HOW WE BUILD — Architecture & Patterns              -->
     <!-- ═══════════════════════════════════════════════════════════ -->
 
-    <!-- 6. Module Architecture -->
+    <!-- 9. Module Architecture -->
     <div class="card" id="module-arch">
       <div class="card-header">
         <span class="adr-tag">ADR-001 + ADR-006</span>
-        <h2>Module Architecture</h2>
-        <p>Schema-per-module with service interface boundaries</p>
+        <h2>Module Communication Rules</h2>
+        <p>Q2 module dependencies — no cross-schema JOINs, service interfaces only, audit trail on state changes</p>
       </div>
       <pre class="mermaid">
 graph TD
@@ -780,20 +784,20 @@ graph TD
     payroll -. "audit log" .-> audit
     lto -. "audit log" .-> audit
 
-    style monolith fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style monolith fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style ops fill:#1A1A1A,stroke:#333333,stroke-width:1px
     style fin fill:#1A1A1A,stroke:#333333,stroke-width:1px
     style cross fill:#1A1A1A,stroke:#333333,stroke-width:1px
-    style payroll fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style dae fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style lto fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style shared fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style audit fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style payroll fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style dae fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style lto fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style shared fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style audit fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Schema-per-module with service interface boundaries — no cross-schema JOINs. <strong>Why:</strong> Enables future extraction to microservices without rewriting data access.</p>
     </div>
 
-    <!-- 7. Integration Adapter Pattern -->
+    <!-- 10. Integration Adapter Pattern -->
     <div class="card" id="adapter-pattern">
       <div class="card-header">
         <span class="adr-tag">ADR-013</span>
@@ -832,25 +836,25 @@ flowchart LR
     didiIface -- "implements" --> didiCsv
     didiIface -. "swap" .-> didiApi
 
-    style modules fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style modules fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style adapters fill:#1A1A1A,stroke:#333333,stroke-width:2px
     style impls fill:#1A1A1A,stroke:#333333,stroke-width:1px
-    style payrollSvc fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style daeSvc fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style ltoSvc fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style runaIface fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style didiIface fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style kibanIface fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style respondIface fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style runaCsv fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style didiCsv fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style runaApi fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
-    style didiApi fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
+    style payrollSvc fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style daeSvc fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style ltoSvc fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style runaIface fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style didiIface fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style kibanIface fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style respondIface fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style runaCsv fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style didiCsv fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style runaApi fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style didiApi fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> One adapter interface per external system, CSV implementation today. <strong>Why:</strong> Swap to API when DiDi/Runa are ready — zero business logic changes.</p>
     </div>
 
-    <!-- 8. Auth & RLS Flow -->
+    <!-- 11. Auth & RLS Flow -->
     <div class="card" id="auth-rls">
       <div class="card-header">
         <span class="adr-tag">ADR-019</span>
@@ -880,27 +884,191 @@ flowchart TD
         refreshPost --> sessions
     end
 
-    style login fill:#1F1510,stroke:#FF5500,stroke-width:2px
-    style request fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style login fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style request fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style refresh fill:#1A1A1A,stroke:#333333,stroke-width:1px
     style post fill:#2A2A2A,stroke:#666666,color:#FFFFFF
-    style passport fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style tokens fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style sessions fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style passport fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style tokens fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style sessions fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
     style bearer fill:#2A2A2A,stroke:#666666,color:#FFFFFF
-    style jwtVerify fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style rls fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style db fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style jwtVerify fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style rls fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style db fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
     style refreshPost fill:#2A2A2A,stroke:#666666,color:#FFFFFF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Custom auth (Passport.js + JWT) with Postgres RLS — no Supabase Auth. <strong>Why:</strong> Vendor lock-in burned us before (Replit). Auth must be portable.</p>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- ACT 2b: CROSS-CUTTING — Testing, Observability, Privacy    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+
+    <!-- 12. Testing Strategy -->
+    <div class="card" id="testing-strategy">
+      <div class="card-header">
+        <span class="adr-tag">ADR-009 + ADR-009a</span>
+        <h2>Testing Strategy — Three Tiers</h2>
+        <p>Unit tests guard calculations, integration tests guard schemas, E2E tests guard workflows — AI-authored via Playwright MCP</p>
+      </div>
+      <pre class="mermaid">
+flowchart TD
+    subgraph unit["Tier 1: Unit Tests (Vitest)"]
+        u1["calculateWeeklyPay()"]
+        u2["parseDiDiCSV()"]
+        u3["validateTransition()"]
+        u4["Deduction formulas"]
+    end
+
+    subgraph integration["Tier 2: Integration Tests (Vitest + Test DB)"]
+        i1["Schema isolation<br/><i>payroll can't query lto.*</i>"]
+        i2["RLS enforcement<br/><i>supervisor sees own center only</i>"]
+        i3["Service contracts"]
+    end
+
+    subgraph e2e["Tier 3: E2E Tests (Playwright, AI-authored)"]
+        e1["Payroll golden path<br/><i>CSV upload → calc → approve → export</i>"]
+        e2["LTO credit application<br/><i>KYC + consent + SIC query</i>"]
+    end
+
+    unit -- "P0: must pass" --> integration
+    integration -- "P1: schema safety" --> e2e
+    e2e -- "P0-P2: workflow chains" --> ci["CI Pipeline<br/><i>lint → unit → integration → e2e</i>"]
+
+    style unit fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style integration fill:#1A1A1A,stroke:#333333,stroke-width:2px
+    style e2e fill:#1A1A1A,stroke:#333333,stroke-width:1px
+
+    style u1 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style u2 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style u3 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style u4 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+
+    style i1 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style i2 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style i3 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+
+    style e1 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style e2 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+
+    style ci fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Three-tier testing with AI-authored E2E via Playwright MCP. <strong>Why:</strong> Payroll accuracy is non-negotiable (P1). Unit tests cover calculation correctness, E2E covers critical workflow chains only.</p>
+    </div>
+
+    <!-- 13. Observability -->
+    <div class="card" id="observability">
+      <div class="card-header">
+        <span class="adr-tag">ADR-010</span>
+        <h2>Observability Baseline</h2>
+        <p>Correlation IDs trace every request through structured logs and error tracking</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    req["<b>HTTP Request</b>"]
+    mid["<b>Correlation ID<br/>Middleware</b><br/>x-correlation-id<br/>or auto UUID"]
+
+    subgraph logging["Structured Logging (pino)"]
+        log["JSON log lines<br/><i>correlationId, module,<br/>action, userId, timestamp</i>"]
+    end
+
+    subgraph errors["Error Tracking (Sentry)"]
+        sentry["Unhandled exceptions<br/><i>environment, module tag,<br/>user context, Git SHA</i>"]
+    end
+
+    subgraph metrics["DB Metrics (Supabase)"]
+        dash["Query performance<br/>Connection pool<br/>Storage usage"]
+    end
+
+    req --> mid
+    mid --> logging
+    mid --> errors
+    mid --> metrics
+
+    style req fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+    style mid fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style logging fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style errors fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style metrics fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style log fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style sentry fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style dash fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> pino (structured JSON) + Sentry (error tracking) + Supabase dashboard (DB metrics) with correlation IDs. <strong>Why:</strong> Trace payroll failures without reading code line by line. No Datadog/Grafana — managed services only (P4).</p>
+    </div>
+
+    <!-- 14. Privacy & Consent -->
+    <div class="card" id="privacy-consent">
+      <div class="card-header">
+        <span class="adr-tag">ADR-017 + ADR-017a</span>
+        <h2>Privacy &amp; Consent — Three Phases</h2>
+        <p>LFPDPPP compliance built incrementally — Phase 1 unblocks LTO, Phase 2 tracks ARCO, Phase 3 enforces blocking</p>
+      </div>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Phase 1 (W2-W3)</th>
+            <th>Phase 2 (W8-W10)</th>
+            <th>Phase 3 (Q3+)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Scope</td><td>Consent + SIC Auth</td><td>ARCO Manual Workflow</td><td>Data Blocking + Retention</td></tr>
+          <tr><td>Tables</td><td>shared.consents<br/>shared.sic_authorizations</td><td>audit.arco_requests</td><td>blocked_at, retention_until<br/>on PII entities</td></tr>
+          <tr><td>Services</td><td>ConsentService<br/>(hasActiveSicAuth, grantConsent)</td><td>ArcoService<br/>(create, transition, list)</td><td>RLS for compliance role<br/>pg_cron cleanup</td></tr>
+          <tr><td>Unblocks</td><td>LTO credit (SIC queries)</td><td>ARCO SLA tracking<br/>(20+15 business days)</td><td>Contract breach suppression<br/>72-month retention</td></tr>
+          <tr><td>Effort</td><td>~1.5 days</td><td>~1 day</td><td>~1.5 days</td></tr>
+        </tbody>
+      </table>
+      <p class="card-footnote"><strong>Decision:</strong> Three-phase privacy implementation — consent first (unblocks LTO), ARCO second (compliance tracking), blocking third (enforcement). <strong>Why:</strong> LTO can't legally query SIC without consent. Phase 1 is the minimum viable compliance for Q2.</p>
+    </div>
+
+    <!-- 15. Containerization -->
+    <div class="card" id="containerization">
+      <div class="card-header">
+        <span class="adr-tag">ADR-018</span>
+        <h2>Containerization Strategy</h2>
+        <p>Multi-stage Dockerfile + docker-compose for local dev — same image runs on Railway today and Cloud Run tomorrow</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    subgraph dockerfile["Multi-Stage Dockerfile"]
+        s1["<b>Stage 1: deps</b><br/>node:20-alpine<br/>pnpm install --frozen-lockfile"]
+        s2["<b>Stage 2: build</b><br/>pnpm build<br/>TypeScript → dist/"]
+        s3["<b>Stage 3: production</b><br/>Non-root user (lafa)<br/>~80-100MB final image"]
+        s1 --> s2 --> s3
+    end
+
+    subgraph compose["docker-compose (Local Dev)"]
+        db["<b>db</b><br/>postgres:16-alpine<br/>port 5432<br/>persistent volume"]
+        dbtest["<b>db-test</b><br/>postgres:16-alpine<br/>port 5433<br/>tmpfs (ephemeral)"]
+    end
+
+    s3 --> railway["<b>Railway</b><br/>Q2 deploy"]
+    s3 -.-> cloudrun["<b>Cloud Run</b><br/>Future"]
+
+    style dockerfile fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style compose fill:#1A1A1A,stroke:#333333,stroke-width:1px
+
+    style s1 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style s2 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style s3 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+
+    style db fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style dbtest fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+
+    style railway fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style cloudrun fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> One Dockerfile, all environments — no vendor-specific build. <strong>Why:</strong> Same image deploys to Railway (today) and Cloud Run (future). Boot &lt;5s for Cloud Run viability. Portability principle (P2).</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- ACT 3: PAYROLL — Core System #1                            -->
     <!-- ═══════════════════════════════════════════════════════════ -->
 
-    <!-- 9. Payroll Data Flow -->
+    <!-- 16. Payroll Data Flow -->
     <div class="card" id="payroll-flow">
       <div class="card-header">
         <span class="adr-tag">Data Flow — Payroll</span>
@@ -941,32 +1109,32 @@ flowchart TD
     deductions --> engine
     engine --> summary --> export --> runa
 
-    style inputs fill:#1F1510,stroke:#FF5500,stroke-width:2px
-    style engine fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style inputs fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style engine fill:#1F1510,stroke:#DB6336,stroke-width:2px
 
     style didi fill:#2A2A2A,stroke:#666666,color:#FFFFFF
     style checkin fill:#2A2A2A,stroke:#666666,color:#FFFFFF
     style deductions fill:#2A2A2A,stroke:#666666,color:#FFFFFF
     style parse fill:#2A2A2A,stroke:#666666,color:#FFFFFF
-    style trips fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style shifts fill:#FF5500,stroke:#FF5500,color:#FFFFFF
+    style trips fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style shifts fill:#DB6336,stroke:#DB6336,color:#FFFFFF
 
-    style step1 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step2 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step3 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step4 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step5 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step6 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
-    style step7 fill:#1A1A1A,stroke:#FF5500,color:#FFFFFF
+    style step1 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step2 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step3 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step4 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step5 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step6 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+    style step7 fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
 
-    style summary fill:#FF5500,stroke:#FF5500,stroke-width:2px,color:#FFFFFF
-    style export fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style runa fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
+    style summary fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style export fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style runa fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> 7-step pure-function engine from DiDi CSV to Runa export. <strong>Why:</strong> Payroll miscalculation is a binary risk (P1) — every step must be auditable and testable.</p>
     </div>
 
-    <!-- 10. Payroll Rules 3-Tier -->
+    <!-- 17. Payroll Rules 3-Tier -->
     <div class="card" id="payroll-rules">
       <div class="card-header">
         <span class="adr-tag">ADR-015</span>
@@ -994,20 +1162,20 @@ flowchart TD
     structItems -- "Type definitions<br/>Developer deploy to change" --> engine
     engine --> calc["<b>calculateDriverPay()</b><br/>Pure function &mdash; no side effects"]
 
-    style law fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style business fill:#1F1510,stroke:#FF5500,stroke-width:2px
+    style law fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style business fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style structural fill:#1A1A1A,stroke:#333333,stroke-width:1px
-    style lawItems fill:#2A2A2A,stroke:#FF5500,color:#FFFFFF
-    style bizItems fill:#FF5500,stroke:#FF5500,color:#FFFFFF
-    style temporal fill:#1A1A1A,stroke:#FF5500,stroke-dasharray:5 5,color:#9CA3AF
+    style lawItems fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style bizItems fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style temporal fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
     style structItems fill:#2A2A2A,stroke:#666666,color:#FFFFFF
-    style engine fill:#FF5500,stroke:#FF5500,stroke-width:2px,color:#FFFFFF
-    style calc fill:#FF5500,stroke:#FF5500,stroke-width:2px,color:#FFFFFF
+    style engine fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style calc fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
       </pre>
       <p class="card-footnote"><strong>Decision:</strong> Law constants hardcoded, business rules in temporal DB, structural rules as types. <strong>Why:</strong> Marsha changes bonus tiers monthly — these can't require a deploy.</p>
     </div>
 
-    <!-- 11. Payroll Period Lifecycle -->
+    <!-- 18. Payroll Period Lifecycle -->
     <div class="card" id="payroll-lifecycle">
       <div class="card-header">
         <span class="adr-tag">ADR-011</span>
@@ -1031,7 +1199,7 @@ stateDiagram-v2
       <p class="card-footnote"><strong>Decision:</strong> 5-state machine with revert paths. <strong>Why:</strong> Corrections happen every week — the system must allow draft &rarr; review &rarr; approve without losing data.</p>
     </div>
 
-    <!-- 12. Runa Export Lifecycle -->
+    <!-- 19. Runa Export Lifecycle -->
     <div class="card" id="runa-export">
       <div class="card-header">
         <span class="adr-tag">ADR-016</span>
@@ -1057,7 +1225,7 @@ stateDiagram-v2
     <!-- ACT 4: LTO CREDIT CORE — Core System #2                   -->
     <!-- ═══════════════════════════════════════════════════════════ -->
 
-    <!-- 13. LTO Contract Lifecycle -->
+    <!-- 20. LTO Contract Lifecycle -->
     <div class="card" id="lto-lifecycle">
       <div class="card-header">
         <span class="adr-tag">ADR-011</span>
@@ -1083,7 +1251,7 @@ stateDiagram-v2
       <p class="card-footnote"><strong>Decision:</strong> 6-state lifecycle from pending to completed/defaulted. <strong>Why:</strong> Each state triggers different obligations — legal, financial, and operational.</p>
     </div>
 
-    <!-- 14. Payment Schedule States -->
+    <!-- 21. Payment Schedule States -->
     <div class="card" id="payment-schedule">
       <div class="card-header">
         <span class="adr-tag">LTO Credit Core</span>
@@ -1111,7 +1279,7 @@ stateDiagram-v2
       <p class="card-footnote"><strong>Decision:</strong> Per-period tracking with partial payment support. <strong>Why:</strong> Drivers pay weekly — partial payments are common and must be tracked accurately.</p>
     </div>
 
-    <!-- 15. Collections Escalation -->
+    <!-- 22. Collections Escalation -->
     <div class="card" id="collections">
       <div class="card-header">
         <span class="adr-tag">LTO Credit Core</span>
@@ -1149,19 +1317,19 @@ stateDiagram-v2
       startOnLoad: true,
       theme: 'base',
       themeVariables: {
-        primaryColor: '#FF5500',
+        primaryColor: '#DB6336',
         primaryTextColor: '#FFFFFF',
-        primaryBorderColor: '#FF5500',
+        primaryBorderColor: '#DB6336',
         lineColor: '#666666',
         secondaryColor: '#2A2A2A',
         tertiaryColor: '#1F1510',
         fontFamily: 'Inter Tight',
         fontSize: '14px',
         labelBoxBorderColor: '#333333',
-        nodeBorder: '#FF5500',
-        mainBkg: '#FF5500',
+        nodeBorder: '#DB6336',
+        mainBkg: '#DB6336',
         clusterBkg: '#1F1510',
-        clusterBorder: '#FF5500',
+        clusterBorder: '#DB6336',
         titleColor: '#FFFFFF',
         edgeLabelBackground: '#1A1A1A',
       },
