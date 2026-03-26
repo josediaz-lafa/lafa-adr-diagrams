@@ -335,6 +335,249 @@
     .toc::-webkit-scrollbar { width: 4px; }
     .toc::-webkit-scrollbar-track { background: transparent; }
     .toc::-webkit-scrollbar-thumb { background: var(--bg-secondary); border-radius: 2px; }
+
+    /* ── AI-First Engineering Cycle ── */
+    .eng-wrapper {
+      max-width: 620px;
+      margin: 24px auto 0;
+    }
+
+    .eng-cycle {
+      position: relative;
+      width: 100%;
+      padding-bottom: 85%;
+    }
+
+    .eng-cycle svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .eng-hub {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 2;
+      background: var(--bg-card);
+      border: 2px solid var(--brand);
+      border-radius: 12px;
+      padding: 14px 20px;
+    }
+
+    .eng-hub-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .eng-hub-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .eng-phase {
+      position: absolute;
+      width: 140px;
+      padding: 10px 8px;
+      background: var(--bg-secondary);
+      border: 2px solid var(--brand);
+      border-radius: 8px;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+    }
+
+    .eng-phase-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .eng-phase-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+
+    .eng-phase-tools {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .eng-p1 { left: 50%; top: 5%; }
+    .eng-p2 { left: 93%; top: 38%; }
+    .eng-p3 { left: 77%; top: 88%; }
+    .eng-p4 { left: 23%; top: 88%; }
+    .eng-p5 { left: 7%; top: 38%; }
+
+    .eng-mcps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .eng-mcp-cluster {
+      background: var(--bg-container);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .eng-mcp-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .eng-mcp-items {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── AI Agents Card ── */
+    .agent-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .agent-row {
+      display: grid;
+      grid-template-columns: 8px 160px 120px 130px 1fr;
+      gap: 12px;
+      align-items: center;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    .agent-row.stretch {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dark);
+    }
+
+    .agent-row.future {
+      background: var(--bg-card);
+      border: 1px dashed var(--border-dark);
+      opacity: 0.7;
+    }
+
+    .agent-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      flex-shrink: 0;
+    }
+
+    .agent-row.stretch .agent-dot { background: var(--text-muted); }
+    .agent-row.future .agent-dot { background: transparent; border: 2px dashed var(--text-muted); }
+
+    .agent-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .agent-channel {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .agent-team {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .agent-value {
+      color: var(--text-dim);
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    .agent-header {
+      display: grid;
+      grid-template-columns: 8px 160px 120px 130px 1fr;
+      gap: 12px;
+      padding: 0 16px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .agent-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 12px;
+      margin-bottom: -2px;
+      padding-left: 16px;
+    }
+
+    .agent-section-label:first-child { margin-top: 0; }
+
+    .agent-cost {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .agent-cost-item {
+      background: var(--bg-container);
+      border: 1px solid var(--border-dark);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .agent-cost-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .agent-cost-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 700px) {
+      .eng-phase { width: 110px; padding: 8px 6px; }
+      .eng-phase-name { font-size: 12px; }
+      .eng-phase-tools { font-size: 10px; }
+      .eng-hub { padding: 10px 14px; }
+      .eng-hub-title { font-size: 14px; }
+      .eng-mcps { grid-template-columns: 1fr; }
+      .agent-row { grid-template-columns: 8px 1fr 1fr; }
+      .agent-header { display: none; }
+      .agent-value { grid-column: 2 / -1; }
+      .agent-cost { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
 </head>
 <body>
@@ -356,7 +599,8 @@
     <a href="#phase-table">Scaling Roadmap</a>
     <a href="#migration-path">Migration Path</a>
     <a href="#cost-breakdown">Cost Projection</a>
-    <a href="#ai-architecture">AI-First Stack</a>
+    <a href="#ai-engineering">AI-First Engineering</a>
+    <a href="#ai-agents">AI Use Cases</a>
     <div class="toc-section">System Patterns</div>
     <a href="#module-arch">Module Boundaries</a>
     <a href="#adapter-pattern">External Integrations</a>
@@ -433,6 +677,7 @@ graph TD
     subgraph outputs["External Outputs"]
         runa["<b>Runa HR</b><br/>Timbrado + disbursement"]
         sentry["<b>Sentry</b><br/>Error tracking"]
+        claude["<b>Claude API</b><br/>AI inline (Q2)"]
     end
 
     subgraph supabase["Supabase"]
@@ -452,6 +697,7 @@ graph TD
 
     monolith -. "CSV export (Q3)" .-> runa
     monolith -- "unhandled exceptions" --> sentry
+    monolith -- "ClaudeClient fetch()" --> claude
 
     monolith -- "Drizzle ORM queries<br/>(SET LOCAL app.user_id)" --> db
     db -- "direct query" --> metabase
@@ -462,7 +708,7 @@ graph TD
 
     class admin,didi,kiban,monolith,metabase active
     class whatsapp,didiapi future
-    class sentry,runa secondary
+    class sentry,runa,claude secondary
     class db active
 
     style clients fill:#1F1510,stroke:#DB6336,stroke-width:2px
@@ -480,7 +726,7 @@ graph TD
       <div class="card-header">
         <span class="adr-tag">ADR-012</span>
         <h2>Module Map</h2>
-        <p>11 modules, 5 layers — solid = Q2, ghost = future</p>
+        <p>11 modules, 5 domain layers + cross-cutting — solid = Q2, ghost = future</p>
       </div>
       <div class="module-grid">
         <div class="layer-group layer-ops">
@@ -526,7 +772,7 @@ graph TD
         </div>
       </div>
       <div class="card-footnote">
-        <p><strong>Decision:</strong> 11 modules across 5 layers — 5 built in Q2, 6 deferred. <strong>Why:</strong> Ship payroll + LTO first, expand as revenue grows.</p>
+        <p><strong>Decision:</strong> 11 modules across 5 domain layers + cross-cutting — 5 built in Q2, 6 deferred. <strong>Why:</strong> Ship payroll + LTO first, expand as revenue grows.</p>
         <ul class="footnote-list footnote-list--cols">
           <li><strong>agents</strong> — for AI-powered insights: inline in Q2, full module when agent #2 arrives</li>
           <li><strong>audit</strong> — for compliance &amp; traceability: append-only event log of all state changes</li>
@@ -619,7 +865,7 @@ flowchart LR
     gcp["<b>Future</b><br/>GCP Cloud SQL<br/>When credits arrive<br/>or compliance requires"]
 
     stage0 -- "Build LAFA OS" --> supabase
-    supabase -- "pg_dump — same engine" --> gcp
+    supabase -. "pg_dump — same engine" .-> gcp
 
     style stage0 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
     style supabase fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
@@ -680,97 +926,195 @@ flowchart LR
       <p class="card-footnote"><strong>Decision:</strong> Dev tools (Claude Max) are the largest investment at $300/mo — AI-first velocity is the strategy. <strong>Why:</strong> Infrastructure starts at $45/mo (275 cars), scaling to $135/mo at 2,000 cars — add read replica and compute upgrades only when needed. The bet is on developer productivity, not infrastructure.</p>
     </div>
 
-    <!-- 8. AI / MCP Architecture -->
-    <div class="card" id="ai-architecture">
+    <!-- 8. AI-First Product Engineering -->
+    <div class="card" id="ai-engineering">
+      <div class="card-header">
+        <span class="adr-tag">ADR-014a + MCP</span>
+        <h2>AI-First Product Engineering</h2>
+        <p>How 1.5 developers produce enterprise-grade output — the development cycle</p>
+      </div>
+
+      <div class="eng-wrapper">
+        <div class="eng-cycle">
+          <!-- Pentagon connecting arrows -->
+          <svg viewBox="0 0 600 510" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="eng-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                <path d="M0,0 L8,3 L0,6" fill="#DB6336" fill-opacity="0.5"/>
+              </marker>
+            </defs>
+            <!-- 1→2 Plan to Build -->
+            <line x1="350" y1="40" x2="530" y2="175" stroke="#DB6336" stroke-width="1.5" stroke-opacity="0.3" marker-end="url(#eng-arrow)"/>
+            <!-- 2→3 Build to Test -->
+            <line x1="545" y1="215" x2="475" y2="420" stroke="#DB6336" stroke-width="1.5" stroke-opacity="0.3" marker-end="url(#eng-arrow)"/>
+            <!-- 3→4 Test to Deploy -->
+            <line x1="440" y1="445" x2="160" y2="445" stroke="#DB6336" stroke-width="1.5" stroke-opacity="0.3" marker-end="url(#eng-arrow)"/>
+            <!-- 4→5 Deploy to Automate -->
+            <line x1="125" y1="420" x2="55" y2="215" stroke="#DB6336" stroke-width="1.5" stroke-opacity="0.3" marker-end="url(#eng-arrow)"/>
+            <!-- 5→1 Automate to Plan -->
+            <line x1="70" y1="175" x2="250" y2="40" stroke="#DB6336" stroke-width="1.5" stroke-opacity="0.3" marker-end="url(#eng-arrow)"/>
+          </svg>
+
+          <!-- Center Hub -->
+          <div class="eng-hub">
+            <div class="eng-hub-title">Jose + Manu</div>
+            <div class="eng-hub-sub">1.5 devs × Claude Code</div>
+            <div class="eng-hub-sub" style="margin-top:4px; font-size:11px; color:var(--brand);">8 MCP Servers</div>
+          </div>
+
+          <!-- Phase 1: Plan -->
+          <div class="eng-phase eng-p1">
+            <div class="eng-phase-num">1. Plan</div>
+            <div class="eng-phase-name">Research & Design</div>
+            <div class="eng-phase-tools">Plan Mode · Skills<br/>Linear · GitHub</div>
+          </div>
+
+          <!-- Phase 2: Build -->
+          <div class="eng-phase eng-p2">
+            <div class="eng-phase-num">2. Build</div>
+            <div class="eng-phase-name">Parallel Code</div>
+            <div class="eng-phase-tools">Subagents<br/>Figma · Supabase</div>
+          </div>
+
+          <!-- Phase 3: Test -->
+          <div class="eng-phase eng-p3">
+            <div class="eng-phase-num">3. Test</div>
+            <div class="eng-phase-name">AI-Authored QA</div>
+            <div class="eng-phase-tools">Playwright · Chrome<br/>Pre-commit Hooks</div>
+          </div>
+
+          <!-- Phase 4: Deploy -->
+          <div class="eng-phase eng-p4">
+            <div class="eng-phase-num">4. Deploy</div>
+            <div class="eng-phase-name">Ship & Monitor</div>
+            <div class="eng-phase-tools">Railway · GitHub CI<br/>Sentry</div>
+          </div>
+
+          <!-- Phase 5: Automate -->
+          <div class="eng-phase eng-p5">
+            <div class="eng-phase-num">5. Automate</div>
+            <div class="eng-phase-name">24/7 Oversight</div>
+            <div class="eng-phase-tools">Scheduled Tasks<br/>Remote Agents</div>
+          </div>
+        </div>
+
+        <!-- MCP Clusters by Purpose -->
+        <div class="eng-mcps">
+          <div class="eng-mcp-cluster">
+            <div class="eng-mcp-label">Understand</div>
+            <div class="eng-mcp-items">Linear · GitHub<br/>Chrome DevTools</div>
+          </div>
+          <div class="eng-mcp-cluster">
+            <div class="eng-mcp-label">Create</div>
+            <div class="eng-mcp-items">Figma · Supabase</div>
+          </div>
+          <div class="eng-mcp-cluster">
+            <div class="eng-mcp-label">Ship</div>
+            <div class="eng-mcp-items">Railway · Playwright<br/>Sentry</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="card-footnote"><strong>Decision:</strong> Claude Code + MCP servers give each developer AI-powered access to testing, design, project management, deployment, and database tools through a single interface. <strong>Why:</strong> Combined with Skills (encoded team knowledge), Subagents (parallel execution), and Scheduled Tasks (24/7 automation), 1.5 developers produce the output of a 10-15 person engineering team. Dev tools investment: $300/month.
+        <ul class="footnote-list">
+          <li><strong>Plan Mode</strong> — AI researches and designs before writing a single line of code</li>
+          <li><strong>Skills</strong> — Custom workflows that encode team knowledge (/pm-product-spec, /design-ui-spec, /dev-arch-audit)</li>
+          <li><strong>Subagents</strong> — Launch multiple AI workers on independent tasks simultaneously</li>
+          <li><strong>Hooks</strong> — Automated pre-commit quality checks, no manual QA overhead</li>
+          <li><strong>Scheduled Tasks</strong> — Overnight PR reviews, deployment monitoring, automated audits</li>
+          <li><strong>MCP Protocol</strong> — Universal interface between AI and all dev tools (Linux Foundation standard)</li>
+        </ul>
+      </p>
+    </div>
+
+    <!-- 9. AI Agents for LAFA Teams -->
+    <div class="card" id="ai-agents">
       <div class="card-header">
         <span class="adr-tag">ADR-014a</span>
-        <h2>AI-First Stack</h2>
-        <p>MCP servers, AI agents, and dev tools — 1.5 devs, enterprise output</p>
+        <h2>AI Use Cases for LAFA Teams</h2>
+        <p>Inline-first via ClaudeClient (ADR-014a) — no dedicated agents module until agent #2 approved</p>
       </div>
-      <pre class="mermaid">
-graph TD
-    subgraph team["Engineering Team"]
-        dev["Jose + Manu<br/>(1.5 devs)"]
-    end
 
-    subgraph tools["AI-First Dev Tools"]
-        cc["Claude Code<br/>AI CLI"]
-        cursor["Cursor<br/>AI IDE"]
-    end
+      <div class="agent-header">
+        <span></span>
+        <span>Agent</span>
+        <span>Channel</span>
+        <span>Team</span>
+        <span>Impact</span>
+      </div>
 
-    dev --> cc
-    dev --> cursor
+      <div class="agent-section-label">Q2 — Active</div>
+      <div class="agent-rows">
+        <div class="agent-row">
+          <div class="agent-dot"></div>
+          <div class="agent-name">Payroll Explainer</div>
+          <div class="agent-channel">WhatsApp</div>
+          <div class="agent-team">Supervisors (DAE)</div>
+          <div class="agent-value">"Why did I get paid X?" — instant breakdown citing exact rules and deductions</div>
+        </div>
+      </div>
 
-    subgraph mcps["MCP Servers (Model Context Protocol)"]
-        pw["Playwright<br/>E2E Testing"]
-        fg["Figma<br/>Design to Code"]
-        ln["Linear<br/>Project Mgmt"]
-        sb["Supabase<br/>Database"]
-        rl["Railway<br/>Deployment"]
-        gh["GitHub<br/>Code & CI/CD"]
-        cd["Chrome DevTools<br/>Browser Debug"]
-        future1["Sentry, Security,<br/>DevOps"]
-    end
+      <div class="agent-section-label">Q2 — Stretch</div>
+      <div class="agent-rows">
+        <div class="agent-row stretch">
+          <div class="agent-dot"></div>
+          <div class="agent-name">Ops Assistant</div>
+          <div class="agent-channel">Internal App</div>
+          <div class="agent-team">Ops (Marsha)</div>
+          <div class="agent-value">Replaces 6 spreadsheets with one question — driver status, earnings, incidents</div>
+        </div>
+        <div class="agent-row stretch">
+          <div class="agent-dot"></div>
+          <div class="agent-name">LTO Lead Qualifier</div>
+          <div class="agent-channel">Respond.io</div>
+          <div class="agent-team">Sales (Diego)</div>
+          <div class="agent-value">Qualifies leads 24/7 on WhatsApp before human contact</div>
+        </div>
+      </div>
 
-    cc --> pw
-    cc --> fg
-    cc --> ln
-    cc --> sb
-    cc --> rl
-    cc --> gh
-    cc --> cd
-    cc -.-> future1
+      <div class="agent-section-label">Q3+ — Future</div>
+      <div class="agent-rows">
+        <div class="agent-row future">
+          <div class="agent-dot"></div>
+          <div class="agent-name">Collections Agent</div>
+          <div class="agent-channel">WhatsApp</div>
+          <div class="agent-team">LTO (Daniel)</div>
+          <div class="agent-value">Automated payment reminders + escalation for overdue accounts</div>
+        </div>
+        <div class="agent-row future">
+          <div class="agent-dot"></div>
+          <div class="agent-name">Customer Support</div>
+          <div class="agent-channel">WhatsApp</div>
+          <div class="agent-team">Support (David)</div>
+          <div class="agent-value">Front-line resolution for common driver questions, reduces ticket volume</div>
+        </div>
+      </div>
 
-    subgraph platform["LAFA Platform (Nest.js Monolith)"]
-        subgraph modules["Q2 Modules"]
-            pay["payroll"]
-            dae["dae"]
-            lto["lto"]
-        end
-        subgraph shared["Shared"]
-            client["ClaudeClient<br/>LLM Wrapper"]
-            adapters["Adapter Pattern<br/>CSV / API"]
-        end
-    end
+      <!-- Cost Summary -->
+      <div class="agent-cost">
+        <div class="agent-cost-item">
+          <div class="agent-cost-value">$40</div>
+          <div class="agent-cost-label">Est. Q2 / month</div>
+        </div>
+        <div class="agent-cost-item">
+          <div class="agent-cost-value">$100</div>
+          <div class="agent-cost-label">Hard cap / month</div>
+        </div>
+        <div class="agent-cost-item">
+          <div class="agent-cost-value">Haiku</div>
+          <div class="agent-cost-label">Fast agents</div>
+        </div>
+        <div class="agent-cost-item">
+          <div class="agent-cost-value">Sonnet</div>
+          <div class="agent-cost-label">Nuanced agents</div>
+        </div>
+      </div>
 
-    sb --> platform
-    modules --> shared
-
-    subgraph database["Supabase (Managed Postgres)"]
-        schemas["5 schemas: payroll | dae | lto | shared | audit"]
-    end
-
-    platform --> database
-
-    subgraph agents["AI Agents (Claude API)"]
-        exp["Payroll<br/>Explainer"]
-        ops["Ops<br/>Assistant"]
-        ltq["LTO Lead<br/>Qualifier"]
-        col["Collections<br/>Agent"]
-        cs["Customer<br/>Support"]
-    end
-
-    client --> agents
-
-    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
-    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
-    classDef future fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
-
-    class dev,cc,pay,dae,lto,exp active
-    class cursor,pw,fg,ln,sb,rl,gh,cd,client,adapters secondary
-    class future1,ops,ltq,col,cs future
-    style schemas fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
-      </pre>
-      <p class="card-footnote"><strong>Decision:</strong> AI-first development with MCP servers multiplies a 1.5-dev team into enterprise-grade output. <strong>Why:</strong> Claude Code + MCP gives each developer access to testing, design, project management, and database tools through a single interface — no context switching, no manual integration.
+      <p class="card-footnote"><strong>Decision:</strong> Each AI agent serves a specific team through their preferred channel (WhatsApp, internal app). <strong>Why:</strong> JJ's mandate is AI culture company-wide — not just engineering. Agents cost ~$40/month (scaling with usage, not headcount) and deliver automation that surprises frontline teams into requesting more.
         <ul class="footnote-list">
-          <li><strong>Playwright</strong> — AI writes and maintains E2E tests by interacting with the running app</li>
-          <li><strong>Figma</strong> — Design-to-code: read Figma designs, generate React components</li>
-          <li><strong>Supabase</strong> — Query schemas, explore data, generate Drizzle migrations</li>
-          <li><strong>Railway</strong> — Deploy services, check logs, manage environment variables</li>
-          <li><strong>GitHub</strong> — PR reviews, code search, CI/CD pipeline status</li>
-          <li><strong>Linear</strong> — Sprint planning, issue triage, project tracking</li>
-          <li><strong>Chrome DevTools</strong> — Browser debugging, screenshots, performance analysis</li>
-          <li><strong>Future</strong> — Sentry (error tracking), security scanning, DevOps automation</li>
+          <li><strong>Powered by</strong> — LAFA Platform (Nest.js) + Claude API (inline-first, ADR-014a)</li>
+          <li><strong>Scaling model</strong> — Cost grows linearly with usage, not with team size</li>
+          <li><strong>Extraction path</strong> — When Agent #2 ships, formal agents module activates (full ADR-014 architecture)</li>
         </ul>
       </p>
     </div>
@@ -806,6 +1150,7 @@ graph TD
     dae -- "Service Interface" --> shared
     lto -- "Service Interface" --> shared
     payroll -. "audit log" .-> audit
+    dae -. "audit log" .-> audit
     lto -. "audit log" .-> audit
 
     style monolith fill:#1F1510,stroke:#DB6336,stroke-width:2px
@@ -1099,7 +1444,7 @@ flowchart TD
         step1["1. Weekly billing<br/><i>Sum trips per driver</i>"]
         step2["2. Goal check<br/><i>Bonus tabuladors by tier</i>"]
         step3["3. Base salary<br/><i>$2,212 if goal met</i>"]
-        step4["4. Overtime<br/><i>If goal met + min hours</i>"]
+        step4["4. Overtime<br/><i>If prior week &ge; $6,500 + min hours</i>"]
         step5["5. Bonuses<br/><i>Attendance + billing tier</i>"]
         step6["6. Deductions<br/><i>Sum all lines, apply 30% cap</i>"]
         step7["7. Carryovers<br/><i>30% cap excess &rarr; next week</i>"]
@@ -1267,6 +1612,7 @@ stateDiagram-v2
     partial --> paid : Remaining balance paid
     partial --> overdue : Past due date
 
+    overdue --> partial : Late partial payment
     overdue --> paid : Late payment received
     overdue --> waived : Payment forgiven
 
@@ -1286,6 +1632,7 @@ stateDiagram-v2
       <pre class="mermaid">
 stateDiagram-v2
     [*] --> reminder
+    reminder --> cured : Payments caught up
     reminder --> warning : No response
 
     warning --> hold : Continued non-payment
