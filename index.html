@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LAFA — ADR Diagrams</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand: #DB6336;
+      --brand-dark-1: #B5522D;
+      --brand-dark-2: #8F4124;
+      --brand-dark-3: #69301B;
+      --bg-body: #000000;
+      --bg-card: #1A1A1A;
+      --bg-container: #1F1510;
+      --bg-secondary: #2A2A2A;
+      --bg-toc: #141414;
+      --border-dark: #333333;
+      --text-primary: #FFFFFF;
+      --text-muted: #9CA3AF;
+      --text-dim: #888888;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter Tight', sans-serif;
+      background: var(--bg-body);
+      color: var(--text-primary);
+      padding: 48px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -1px;
+    }
+
+    header .subtitle {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--brand);
+      margin-top: 4px;
+    }
+
+    header .instructions {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 840px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-secondary);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--brand);
+    }
+
+    .card-header .adr-tag {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .card-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 4px;
+    }
+
+    .card-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mermaid {
+      display: flex;
+      justify-content: center;
+      padding: 8px 0;
+    }
+
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .card-footnote {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--bg-secondary);
+      line-height: 1.5;
+    }
+
+    .card-footnote ul {
+      list-style: none;
+    }
+
+    .card-footnote li {
+      padding: 2px 0;
+    }
+
+    .card-footnote li::before {
+      content: "›";
+      color: var(--brand);
+      margin-right: 6px;
+      font-weight: 600;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .layer-group {
+      background: var(--bg-container);
+      border: 2px solid var(--brand);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .layer-group.crosscut {
+      background: var(--bg-card);
+      border-color: var(--border-dark);
+    }
+
+    .layer-ops     { grid-column: 1 / 5; }
+    .layer-finance { grid-column: 5 / 7; }
+    .layer-intel   { grid-column: 1 / 3; }
+    .layer-energy  { grid-column: 3 / 5; }
+    .layer-risk    { grid-column: 5 / 7; }
+    .layer-cross   { grid-column: 1 / 7; }
+
+    .layer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .layer-modules {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .mod {
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .mod span {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .mod.active {
+      background: var(--brand);
+      color: var(--text-primary);
+      border: 2px solid var(--brand);
+    }
+
+    .mod.future {
+      background: var(--bg-card);
+      color: var(--text-muted);
+      border: 2px dashed var(--brand);
+    }
+
+    .phase-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .phase-table th {
+      background: var(--brand);
+      color: var(--text-primary);
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .phase-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--bg-secondary);
+      color: var(--text-primary);
+      vertical-align: top;
+    }
+
+    .phase-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .phase-table td:first-child {
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .table-hint {
+      font-weight: 400;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .table-total td {
+      border-top: 2px solid var(--brand);
+    }
+
+    .table-total td strong {
+      color: var(--brand);
+    }
+
+    .footnote-list {
+      list-style: none;
+      margin-top: 8px;
+      padding-left: 16px;
+    }
+
+    .footnote-list--cols {
+      columns: 2;
+      column-gap: 24px;
+    }
+
+    .layout {
+      display: flex;
+      gap: 32px;
+      max-width: 1120px;
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .toc {
+      position: sticky;
+      top: 24px;
+      width: 220px;
+      flex-shrink: 0;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      background: var(--bg-toc);
+      border-radius: 8px;
+      padding: 20px 16px;
+    }
+
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    .toc-section {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 16px;
+      margin-bottom: 6px;
+    }
+
+    .toc-section:first-of-type { margin-top: 0; }
+
+    .toc a {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 0 4px 8px;
+      border-left: 2px solid transparent;
+      transition: color 0.15s, border-left-color 0.15s;
+      line-height: 1.4;
+    }
+
+    .toc a:hover { color: var(--text-primary); }
+
+    .toc a.active {
+      color: var(--brand);
+      border-left-color: var(--brand);
+    }
+
+    @media (max-width: 1024px) {
+      .toc { display: none; }
+      .layout { max-width: 840px; }
+    }
+
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--bg-secondary); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>LAFA</h1>
+    <p class="subtitle">Architecture Decision Record Diagrams</p>
+    <p class="instructions">Screenshot each card and paste into Google Docs</p>
+  </header>
+
+  <div class="layout">
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-section">Foundations</div>
+    <a href="#principles">Principle Hierarchy</a>
+    <a href="#system-overview">System Landscape</a>
+    <a href="#module-map">Module Map</a>
+    <a href="#decisions-summary">Decisions Summary</a>
+    <a href="#phase-table">Infrastructure Evolution</a>
+    <a href="#migration-path">Migration Path</a>
+    <a href="#cost-breakdown">Cost Breakdown</a>
+    <a href="#ai-architecture">AI Architecture</a>
+    <div class="toc-section">Architecture</div>
+    <a href="#module-arch">Module Architecture</a>
+    <a href="#adapter-pattern">Adapter Pattern</a>
+    <a href="#auth-rls">Auth &amp; RLS</a>
+    <div class="toc-section">Cross-Cutting</div>
+    <a href="#testing-strategy">Testing Strategy</a>
+    <a href="#observability">Observability</a>
+    <a href="#privacy-consent">Privacy &amp; Consent</a>
+    <a href="#containerization">Containerization</a>
+    <div class="toc-section">Payroll</div>
+    <a href="#payroll-flow">Payroll Pipeline</a>
+    <a href="#payroll-rules">Rules Classification</a>
+    <a href="#payroll-lifecycle">Payroll Lifecycle</a>
+    <a href="#runa-export">Runa Export</a>
+    <div class="toc-section">LTO Credit</div>
+    <a href="#lto-lifecycle">LTO Lifecycle</a>
+    <a href="#payment-schedule">Payment Schedule</a>
+    <a href="#collections">Collections</a>
+  </nav>
+  <main>
+
+    <!-- ACT 1: WHY & WHAT — Strategic Context -->
+
+    <!-- 1. Principle Hierarchy -->
+    <div class="card" id="principles">
+      <div class="card-header">
+        <span class="adr-tag">ADR-000</span>
+        <h2>Principle Hierarchy</h2>
+        <p>When principles conflict, resolve in this order — P1 always wins</p>
+      </div>
+      <pre class="mermaid">
+graph TD
+    P1["<b>P1: Data Integrity Over Performance</b><br/>Always wins — financial accuracy is non-negotiable"]
+    P2["<b>P2: Portability Over Features</b><br/>No vendor lock-in — pg_dump and leave in 24h"]
+    P3["<b>P3: Velocity Over Architecture</b><br/>Ship Q2, refactor later"]
+    P4["<b>P4: Managed Services Over Custom Infra</b><br/>1.5 devs cannot run Kubernetes"]
+    P5["<b>P5: Module Isolation Over Code Reuse</b><br/>Each module owns its schema and interfaces"]
+
+    P1 --- P2 --- P3 --- P4 --- P5
+
+    style P1 fill:#DB6336,stroke:#DB6336,stroke-width:3px,color:#FFFFFF
+    style P2 fill:#B5522D,stroke:#B5522D,stroke-width:2px,color:#FFFFFF
+    style P3 fill:#8F4124,stroke:#8F4124,stroke-width:2px,color:#FFFFFF
+    style P4 fill:#69301B,stroke:#69301B,stroke-width:1px,color:#FFFFFF
+    style P5 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Five ranked principles resolve conflicts. <strong>Why:</strong> Financial accuracy (P1) can never be traded for speed or features.</p>
+    </div>
+
+    <!-- 2. System Overview -->
+    <div class="card" id="system-overview">
+      <div class="card-header">
+        <span class="adr-tag">System Overview</span>
+        <h2>LAFA System Landscape</h2>
+        <p>All systems and how they connect — solid = Q2 active, dashed = future</p>
+      </div>
+      <pre class="mermaid">
+graph TD
+    subgraph clients["Clients"]
+        admin["<b>Admin Dashboard</b><br/>React + Vite"]
+        whatsapp["<b>WhatsApp</b><br/>via Respond.io"]
+    end
+
+    subgraph inputs["External Data Sources"]
+        didi["<b>DiDi</b><br/>Trip data (CSV)"]
+        didiapi["<b>DiDi Fleet API</b><br/>Real-time trip pull"]
+        kiban["<b>Kiban Bureau</b><br/>Credit scoring (JSON API)"]
+    end
+
+    subgraph railway["Railway (Hosting)"]
+        monolith["<b>LAFA Monolith</b><br/>Nest.js + TypeScript"]
+    end
+
+    subgraph outputs["External Outputs"]
+        runa["<b>Runa HR</b><br/>Timbrado + disbursement"]
+        sentry["<b>Sentry</b><br/>Error tracking"]
+    end
+
+    subgraph supabase["Supabase"]
+        db[("<b>Postgres</b><br/>payroll | dae | lto<br/>shared | audit<br/>+ RLS policies")]
+    end
+
+    subgraph bi["Analytics"]
+        metabase["<b>Metabase</b><br/>BI dashboards"]
+    end
+
+    admin -- "REST API" --> monolith
+    whatsapp -. "LTO payment reminders" .-> monolith
+
+    didi -- "CSV upload (weekly)" --> monolith
+    didiapi -. "Pull API (future)" .-> monolith
+    kiban -- "SIC query (JSON)" --> monolith
+
+    monolith -. "CSV export (Q3)" .-> runa
+    monolith -- "unhandled exceptions" --> sentry
+
+    monolith -- "Drizzle ORM queries<br/>(SET LOCAL app.user_id)" --> db
+    db -- "direct query" --> metabase
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    classDef future fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+
+    class admin,didi,kiban,monolith,metabase active
+    class whatsapp,didiapi,runa future
+    class sentry,db secondary
+
+    style clients fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style inputs fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style railway fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style outputs fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style supabase fill:#1A1A1A,stroke:#333333,stroke-width:2px
+    style bi fill:#1A1A1A,stroke:#333333,stroke-width:1px
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Nest.js monolith on Railway + Supabase Postgres with 6 external integrations. <strong>Why:</strong> 1.5 devs cannot operate distributed infrastructure.</p>
+    </div>
+
+    <!-- 3. LAFA OS Module Map -->
+    <div class="card" id="module-map">
+      <div class="card-header">
+        <span class="adr-tag">ADR-012</span>
+        <h2>LAFA OS Module Map</h2>
+        <p>11 modules across 5 layers — solid = Q2, dashed = future</p>
+      </div>
+      <div class="module-grid">
+        <div class="layer-group layer-ops">
+          <div class="layer-label">Operations Layer</div>
+          <div class="layer-modules">
+            <div class="mod active">payroll<span>Q2</span></div>
+            <div class="mod active">dae<span>Q2</span></div>
+            <div class="mod future">hr<span>Q3</span></div>
+            <div class="mod future">fulfillment<span>Q3</span></div>
+          </div>
+        </div>
+        <div class="layer-group layer-finance">
+          <div class="layer-label">Finance Layer</div>
+          <div class="layer-modules">
+            <div class="mod active">lto<span>Q2</span></div>
+            <div class="mod future">billing<span>Q4</span></div>
+          </div>
+        </div>
+        <div class="layer-group layer-intel">
+          <div class="layer-label">Intelligence Layer</div>
+          <div class="layer-modules">
+            <div class="mod future">agents<span>Q3+</span></div>
+          </div>
+        </div>
+        <div class="layer-group layer-energy">
+          <div class="layer-label">Energy Layer</div>
+          <div class="layer-modules">
+            <div class="mod future">charging<span>Q4</span></div>
+          </div>
+        </div>
+        <div class="layer-group layer-risk">
+          <div class="layer-label">Risk Layer</div>
+          <div class="layer-modules">
+            <div class="mod future">risk<span>Q3</span></div>
+          </div>
+        </div>
+        <div class="layer-group crosscut layer-cross">
+          <div class="layer-label">Cross-cutting</div>
+          <div class="layer-modules">
+            <div class="mod active">shared<span>Q2</span></div>
+            <div class="mod active">audit<span>Q2</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footnote">
+        <p><strong>Decision:</strong> 11 modules across 5 layers — 5 built in Q2, 6 deferred. <strong>Why:</strong> Ship payroll + LTO first, expand as revenue grows.</p>
+        <ul class="footnote-list footnote-list--cols">
+          <li><strong>agents</strong> — for AI-powered insights: inline in Q2, full module when agent #2 arrives</li>
+          <li><strong>audit</strong> — for compliance &amp; traceability: append-only event log of all state changes</li>
+          <li><strong>billing</strong> — for revenue collection: usage-based invoicing, payment reconciliation (Q4)</li>
+          <li><strong>charging</strong> — for energy management: EV charging network integration, cost optimization (Q4)</li>
+          <li><strong>dae</strong> — for daily fleet operations: shifts, check-ins, DiDi trip ingestion, incident tracking</li>
+          <li><strong>fulfillment</strong> — for car onboarding: vehicle delivery, prep, GPS install, insurance (Q3)</li>
+          <li><strong>hr</strong> — for workforce management: employee lifecycle, onboarding, documents (Q3)</li>
+          <li><strong>lto</strong> — for driver car financing: lease-to-own contracts, payments, collections, credit lifecycle</li>
+          <li><strong>payroll</strong> — for paying 1,000+ drivers weekly: pay calculation, bonuses, deductions, Runa export</li>
+          <li><strong>risk</strong> — for loss prevention: credit scoring, fraud detection, driver risk profiles (Q3)</li>
+          <li><strong>shared</strong> — for cross-module master data: drivers, vehicles, centers, auth, consent</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4. Architecture Decisions Summary -->
+    <div class="card" id="decisions-summary">
+      <div class="card-header">
+        <span class="adr-tag">ADR Summary</span>
+        <h2>Architecture Decisions at a Glance</h2>
+        <p>Every major tech decision and why — one line each</p>
+      </div>
+      <table class="phase-table">
+        <thead>
+          <tr><th>Area</th><th>Decision</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Architecture</td><td>Modular monolith (Nest.js)</td><td>1.5 devs can't run microservices. Extraction path preserved.</td></tr>
+          <tr><td>Database</td><td>Supabase (Postgres) &rarr; GCP Cloud SQL</td><td>pg_dump portability. Zero vendor lock-in.</td></tr>
+          <tr><td>Language</td><td>TypeScript (strict mode)</td><td>One language full-stack. Claude Code excels at TS.</td></tr>
+          <tr><td>Framework</td><td>Nest.js</td><td>Module system = monolith boundaries. DI built-in.</td></tr>
+          <tr><td>ORM</td><td>Drizzle</td><td>Native multi-schema (pgSchema). SQL-close. Portable migrations.</td></tr>
+          <tr><td>Auth</td><td>Custom (Passport.js + JWT) + RLS</td><td>No Supabase Auth. Vendor lock-in burned us (Replit).</td></tr>
+          <tr><td>Hosting</td><td>Railway &rarr; GCP Cloud Run</td><td>Already configured. Auto-deploy. $25/mo.</td></tr>
+          <tr><td>Testing</td><td>Vitest (unit + integration) + Playwright (E2E, AI-authored)</td><td>Payroll accuracy is non-negotiable (P1). E2E covers critical workflow chains only — payroll golden path, LTO application. AI-authored via Playwright MCP.</td></tr>
+          <tr><td>Observability</td><td>pino + Sentry + correlation IDs</td><td>Trace payroll failures without reading code line by line.</td></tr>
+          <tr><td>Integrations</td><td>Adapter pattern (CSV &rarr; API)</td><td>One interface per system. Swap implementation, not logic.</td></tr>
+          <tr><td>AI</td><td>Inline-first (ClaudeClient)</td><td>4h vs 16h. Extract to full module when agent #2 approved.</td></tr>
+          <tr><td>Privacy</td><td>ConsentService + ARCO workflow</td><td>LTO can't query SIC without consent. LFPDPPP compliance.</td></tr>
+          <tr><td>State machines</td><td>Union type + transition map</td><td>Consistent across modules. Compiler catches invalid states.</td></tr>
+        </tbody>
+      </table>
+      <p class="card-footnote"><strong>Decision:</strong> 20 architecture decisions + 5 addenda documented as ADRs — 13 key areas shown above. <strong>Why:</strong> Every choice is traceable, reversible, and justified — no tribal knowledge.</p>
+    </div>
+
+    <!-- 5. Infrastructure Evolution -->
+    <div class="card" id="phase-table">
+      <div class="card-header">
+        <span class="adr-tag">Architecture Evolution</span>
+        <h2>Infrastructure Evolution — Three Phases</h2>
+        <p>Trigger-based migration — metrics drive architecture changes, not calendar dates</p>
+      </div>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Phase 1 (Q2-Q4 2026)</th>
+            <th>Phase 2 (2027)</th>
+            <th>Phase 3 (2028+)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Scale</td><td>250 &rarr; 2,000 vehicles</td><td>2,000 &rarr; 30,000</td><td>30,000 &rarr; 200,000</td></tr>
+          <tr><td>Revenue</td><td>$6M &rarr; $16M ARR</td><td>$16M &rarr; $75M</td><td>$75M &rarr; $400M</td></tr>
+          <tr><td>Team</td><td>1.5 devs</td><td>4-6 devs (post Series A)</td><td>10+ engineers</td></tr>
+          <tr><td>Architecture</td><td>Modular monolith (Nest.js)</td><td>Modular monolith (same)</td><td>Microservices extraction</td></tr>
+          <tr><td>Database</td><td>Supabase (managed Postgres)</td><td>GCP Cloud SQL + BigQuery</td><td>Cloud SQL per-tenant + BigQuery</td></tr>
+          <tr><td>Hosting</td><td>Railway ($25/mo)</td><td>Cloud Run ($130-300/mo)</td><td>Cloud Run per-service</td></tr>
+          <tr><td>Events</td><td>CSV batch (weekly)</td><td>Pub/Sub (real-time)</td><td>Pub/Sub + Cloud Tasks</td></tr>
+          <tr><td>AI / ML</td><td>Claude API inline ($40/mo)</td><td>Vertex AI inference</td><td>Production ML models</td></tr>
+          <tr><td>Multi-tenancy</td><td>Single org (org_id ready)</td><td>Org-scoped RLS active</td><td>Per-tenant DB for large customers</td></tr>
+          <tr><td>Migration trigger</td><td>&mdash;</td><td>Data &gt;50GB, first external customer, or GCP credits</td><td>Team &gt;4, modules &gt;5</td></tr>
+        </tbody>
+      </table>
+      <p class="card-footnote"><strong>Decision:</strong> Trigger-based migration — metrics drive architecture changes, not calendar dates. <strong>Why:</strong> Premature migration wastes the scarcest resource: developer time. See Cost Breakdown below for detailed budget.</p>
+    </div>
+
+    <!-- 6. Infrastructure Migration Path -->
+    <div class="card" id="migration-path">
+      <div class="card-header">
+        <span class="adr-tag">ADR-002</span>
+        <h2>Infrastructure Migration Path</h2>
+        <p>Same Postgres engine at every stage — no application code changes</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    stage0["<b>Stage 0</b><br/>Spreadsheets<br/>Data lost daily"]
+    supabase["<b>Q2 2026</b><br/>Supabase<br/>Managed Postgres<br/>$25/mo + RLS"]
+    gcp["<b>Future</b><br/>GCP Cloud SQL<br/>When credits arrive<br/>or compliance requires"]
+
+    stage0 -- "Build LAFA OS" --> supabase
+    supabase -- "pg_dump — same engine" --> gcp
+
+    style stage0 fill:#2A2A2A,stroke:#333333,stroke-width:1px,color:#9CA3AF
+    style supabase fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style gcp fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Supabase today, GCP Cloud SQL when triggers hit — same Postgres engine throughout. <strong>Why:</strong> pg_dump portability (P2) means zero application code changes on migration.</p>
+    </div>
+
+    <!-- 7. Cost Breakdown -->
+    <div class="card" id="cost-breakdown">
+      <div class="card-header">
+        <span class="adr-tag">Investment</span>
+        <h2>Tech Cost Breakdown by Phase</h2>
+        <p>Monthly infrastructure investment grouped by category — scales sub-linearly with fleet size</p>
+      </div>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Phase 1 (Q2-Q4 2026)<br/><span class="table-hint">250 &rarr; 2,000 cars</span></th>
+            <th>Phase 2 (2027)<br/><span class="table-hint">2K &rarr; 30K cars</span></th>
+            <th>Phase 3 (2028+)<br/><span class="table-hint">30K &rarr; 200K cars</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Infrastructure</strong><br/><span class="table-hint">Hosting + DB + Analytics</span></td>
+            <td>$65/mo<br/><span class="table-hint">Supabase $40 + Railway $25</span></td>
+            <td>$270-660/mo<br/><span class="table-hint">Cloud SQL + Cloud Run</span></td>
+            <td>$3,000+/mo<br/><span class="table-hint">GCP scaled</span></td>
+          </tr>
+          <tr>
+            <td><strong>AI &amp; APIs</strong><br/><span class="table-hint">Claude Haiku/Sonnet, Vertex</span></td>
+            <td>$30-50/mo</td>
+            <td>$50-100/mo</td>
+            <td>$500+/mo</td>
+          </tr>
+          <tr>
+            <td><strong>Dev Tools</strong><br/><span class="table-hint">Claude Max, Cursor Free</span></td>
+            <td>$300/mo<br/><span class="table-hint">3 seats &times; $100</span></td>
+            <td>$500+/mo<br/><span class="table-hint">5+ seats</span></td>
+            <td>$1,000+/mo<br/><span class="table-hint">10+ seats</span></td>
+          </tr>
+          <tr>
+            <td><strong>SaaS</strong><br/><span class="table-hint">Linear, GitHub Free, Sentry Free</span></td>
+            <td>$30/mo<br/><span class="table-hint">Linear $10 &times; 3</span></td>
+            <td>$50+/mo<br/><span class="table-hint">5+ seats</span></td>
+            <td>$100+/mo</td>
+          </tr>
+          <tr class="table-total">
+            <td><strong>Total</strong></td>
+            <td><strong>$425-445/mo</strong></td>
+            <td><strong>$870-1,420/mo</strong></td>
+            <td><strong>$4,600+/mo</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="card-footnote"><strong>Decision:</strong> Dev tools (Claude Max) are the largest investment at $300/mo — AI-first velocity is the strategy. <strong>Why:</strong> Infrastructure stays under $70/mo in Phase 1 thanks to managed services. The bet is on developer productivity, not infrastructure.</p>
+    </div>
+
+    <!-- 8. AI / MCP Architecture -->
+    <div class="card" id="ai-architecture">
+      <div class="card-header">
+        <span class="adr-tag">ADR-014a + MCP</span>
+        <h2>AI-First Development Architecture</h2>
+        <p>How MCP servers, database, and AI agents connect — 1.5 devs, enterprise-grade output</p>
+      </div>
+      <pre class="mermaid">
+graph TD
+    subgraph team["Engineering Team"]
+        dev["Jose + Manu<br/>(1.5 devs)"]
+    end
+
+    subgraph tools["AI-First Dev Tools"]
+        cc["Claude Code<br/>AI CLI"]
+        cursor["Cursor<br/>AI IDE"]
+    end
+
+    dev --> cc
+    dev --> cursor
+
+    subgraph mcps["MCP Servers (Model Context Protocol)"]
+        pw["Playwright<br/>E2E Testing"]
+        fg["Figma<br/>Design to Code"]
+        ln["Linear<br/>Project Mgmt"]
+        sb["Supabase<br/>Database"]
+        rl["Railway<br/>Deployment"]
+        gh["GitHub<br/>Code & CI/CD"]
+        cd["Chrome DevTools<br/>Browser Debug"]
+        future1["Sentry, Security,<br/>DevOps"]
+    end
+
+    cc --> pw
+    cc --> fg
+    cc --> ln
+    cc --> sb
+    cc --> rl
+    cc --> gh
+    cc --> cd
+    cc -.-> future1
+
+    subgraph platform["LAFA Platform (Nest.js Monolith)"]
+        subgraph modules["Q2 Modules"]
+            pay["payroll"]
+            dae["dae"]
+            lto["lto"]
+        end
+        subgraph shared["Shared"]
+            client["ClaudeClient<br/>LLM Wrapper"]
+            adapters["Adapter Pattern<br/>CSV / API"]
+        end
+    end
+
+    sb --> platform
+    modules --> shared
+
+    subgraph database["Supabase (Managed Postgres)"]
+        schemas["5 schemas: payroll | dae | lto | shared | audit"]
+    end
+
+    platform --> database
+
+    subgraph agents["AI Agents (Claude API)"]
+        exp["Payroll<br/>Explainer"]
+        ops["Ops<br/>Assistant"]
+        ltq["LTO Lead<br/>Qualifier"]
+        col["Collections<br/>Agent"]
+        cs["Customer<br/>Support"]
+    end
+
+    client --> agents
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    classDef future fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+
+    class dev,cc,pay,dae,lto,exp active
+    class cursor,pw,fg,ln,sb,rl,gh,cd,client,adapters secondary
+    class future1,ops,ltq,col,cs future
+    style schemas fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> AI-first development with MCP servers multiplies a 1.5-dev team into enterprise-grade output. <strong>Why:</strong> Claude Code + MCP gives each developer access to testing, design, project management, and database tools through a single interface — no context switching, no manual integration.
+        <ul class="footnote-list">
+          <li><strong>Playwright</strong> — AI writes and maintains E2E tests by interacting with the running app</li>
+          <li><strong>Figma</strong> — Design-to-code: read Figma designs, generate React components</li>
+          <li><strong>Supabase</strong> — Query schemas, explore data, generate Drizzle migrations</li>
+          <li><strong>Railway</strong> — Deploy services, check logs, manage environment variables</li>
+          <li><strong>GitHub</strong> — PR reviews, code search, CI/CD pipeline status</li>
+          <li><strong>Linear</strong> — Sprint planning, issue triage, project tracking</li>
+          <li><strong>Chrome DevTools</strong> — Browser debugging, screenshots, performance analysis</li>
+          <li><strong>Future</strong> — Sentry (error tracking), security scanning, DevOps automation</li>
+        </ul>
+      </p>
+    </div>
+
+    <!-- ACT 2: HOW WE BUILD — Architecture & Patterns -->
+
+    <!-- 9. Module Architecture -->
+    <div class="card" id="module-arch">
+      <div class="card-header">
+        <span class="adr-tag">ADR-001 + ADR-006</span>
+        <h2>Module Communication Rules</h2>
+        <p>Q2 module dependencies — no cross-schema JOINs, service interfaces only, audit trail on state changes</p>
+      </div>
+      <pre class="mermaid">
+graph TD
+    subgraph monolith["Modular Monolith — Nest.js"]
+        subgraph ops["Operations"]
+            payroll["<b>payroll.*</b><br/>Weekly pay calculation"]
+            dae["<b>dae.*</b><br/>Shifts &amp; fleet ops"]
+        end
+
+        subgraph fin["Finance"]
+            lto["<b>lto.*</b><br/>Lease-to-own &amp; payments"]
+        end
+
+        subgraph cross["Cross-cutting"]
+            shared["<b>shared.*</b><br/>Drivers, vehicles, centers,<br/>organizations, auth, consent"]
+            audit["<b>audit.*</b><br/>Compliance event log"]
+        end
+    end
+
+    payroll -- "Service Interface" --> shared
+    dae -- "Service Interface" --> shared
+    lto -- "Service Interface" --> shared
+    payroll -. "audit log" .-> audit
+    lto -. "audit log" .-> audit
+
+    style monolith fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style ops fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style fin fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style cross fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style payroll fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style dae fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style lto fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style shared fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style audit fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Schema-per-module with service interface boundaries — no cross-schema JOINs. <strong>Why:</strong> Enables future extraction to microservices without rewriting data access.</p>
+    </div>
+
+    <!-- 10. Integration Adapter Pattern -->
+    <div class="card" id="adapter-pattern">
+      <div class="card-header">
+        <span class="adr-tag">ADR-013</span>
+        <h2>Integration Adapter Pattern</h2>
+        <p>Same interface per external system, swappable implementation — CSV today, API tomorrow</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    subgraph modules["Module Layer"]
+        payrollSvc["<b>payroll.service</b>"]
+        daeSvc["<b>dae.service</b>"]
+        ltoSvc["<b>lto.service</b>"]
+    end
+
+    subgraph adapters["Adapter Interfaces"]
+        runaIface["<b>RunaAdapter</b><br/>exportPayroll()"]
+        didiIface["<b>DiDiAdapter</b><br/>importTrips()"]
+        kibanIface["<b>KibanAdapter</b><br/>queryBureau()"]
+        respondIface["<b>RespondIoAdapter</b><br/>sendReminder()"]
+    end
+
+    subgraph impls["Implementations (CSV &rarr; API)"]
+        runaCsv["<b>RunaCsvAdapter</b><br/>Q2"]
+        runaApi["<b>RunaApiAdapter</b><br/>Future"]
+        didiCsv["<b>DiDiCsvAdapter</b><br/>Q2"]
+        didiApi["<b>DiDiApiAdapter</b><br/>Future"]
+    end
+
+    payrollSvc -- "injects" --> runaIface
+    daeSvc -- "injects" --> didiIface
+    ltoSvc -- "injects" --> kibanIface
+    ltoSvc -- "injects" --> respondIface
+
+    runaIface -- "implements" --> runaCsv
+    runaIface -. "swap" .-> runaApi
+    didiIface -- "implements" --> didiCsv
+    didiIface -. "swap" .-> didiApi
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    classDef future fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+
+    class payrollSvc,daeSvc,ltoSvc,runaCsv,didiCsv active
+    class runaIface,didiIface,kibanIface,respondIface secondary
+    class runaApi,didiApi future
+
+    style modules fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style adapters fill:#1A1A1A,stroke:#333333,stroke-width:2px
+    style impls fill:#1A1A1A,stroke:#333333,stroke-width:1px
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> One adapter interface per external system, CSV implementation today. <strong>Why:</strong> Swap to API when DiDi/Runa are ready — zero business logic changes.</p>
+    </div>
+
+    <!-- 11. Auth & RLS Flow -->
+    <div class="card" id="auth-rls">
+      <div class="card-header">
+        <span class="adr-tag">ADR-019</span>
+        <h2>Auth &amp; RLS Flow</h2>
+        <p>Custom auth: Passport.js validates credentials, JWT carries identity, RLS enforces row-level access</p>
+      </div>
+      <pre class="mermaid">
+flowchart TD
+    subgraph login["Login Flow"]
+        post["<b>POST /auth/login</b><br/>email + password"]
+        passport["<b>Passport LocalStrategy</b><br/>argon2 hash comparison"]
+        tokens["<b>Issue Tokens</b><br/>Access: 15min (JWT)<br/>Refresh: 7d (DB)"]
+        sessions["<b>shared.auth_sessions</b><br/>refresh_token_hash<br/>expires_at"]
+        post --> passport --> tokens --> sessions
+    end
+
+    subgraph request["Authenticated Request"]
+        bearer["<b>Bearer Token</b><br/>in Authorization header"]
+        jwtVerify["<b>Passport JwtStrategy</b><br/>Verify access token"]
+        rls["<b>RLS Middleware</b><br/>SET LOCAL app.user_id<br/>SET LOCAL app.role<br/>SET LOCAL app.organization_id"]
+        db[("<b>Postgres</b><br/>RLS policies enforce<br/>row-level access")]
+        bearer --> jwtVerify --> rls --> db
+    end
+
+    subgraph refresh["Token Refresh"]
+        refreshPost["<b>POST /auth/refresh</b><br/>Rotate token pair"]
+        refreshPost --> sessions
+    end
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    classDef dim fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+
+    class passport,tokens,jwtVerify active
+    class sessions,rls,db secondary
+    class post,bearer,refreshPost dim
+
+    style login fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style request fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style refresh fill:#1A1A1A,stroke:#333333,stroke-width:1px
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Custom auth (Passport.js + JWT) with Postgres RLS — no Supabase Auth. <strong>Why:</strong> Vendor lock-in burned us before (Replit). Auth must be portable.</p>
+    </div>
+
+    <!-- ACT 2b: CROSS-CUTTING — Testing, Observability, Privacy -->
+
+    <!-- 12. Testing Strategy -->
+    <div class="card" id="testing-strategy">
+      <div class="card-header">
+        <span class="adr-tag">ADR-009 + ADR-009a</span>
+        <h2>Testing Strategy — Three Tiers</h2>
+        <p>Unit tests guard calculations, integration tests guard schemas, E2E tests guard workflows — AI-authored via Playwright MCP</p>
+      </div>
+      <pre class="mermaid">
+flowchart TD
+    subgraph unit["Tier 1: Unit Tests (Vitest)"]
+        u1["calculateWeeklyPay()"]
+        u2["parseDiDiCSV()"]
+        u3["validateTransition()"]
+        u4["Deduction formulas"]
+    end
+
+    subgraph integration["Tier 2: Integration Tests (Vitest + Test DB)"]
+        i1["Schema isolation<br/><i>payroll can't query lto.*</i>"]
+        i2["RLS enforcement<br/><i>supervisor sees own center only</i>"]
+        i3["Service contracts"]
+    end
+
+    subgraph e2e["Tier 3: E2E Tests (Playwright, AI-authored)"]
+        e1["Payroll golden path<br/><i>CSV upload → calc → approve → export</i>"]
+        e2["LTO credit application<br/><i>KYC + consent + SIC query</i>"]
+    end
+
+    unit -- "P0: must pass" --> integration
+    integration -- "P1: schema safety" --> e2e
+    e2e -- "P0-P2: workflow chains" --> ci["CI Pipeline<br/><i>lint → unit → integration → e2e</i>"]
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+
+    class u1,u2,u3,u4,ci active
+    class i1,i2,i3,e1,e2 secondary
+
+    style unit fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style integration fill:#1A1A1A,stroke:#333333,stroke-width:2px
+    style e2e fill:#1A1A1A,stroke:#333333,stroke-width:1px
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Three-tier testing with AI-authored E2E via Playwright MCP. <strong>Why:</strong> Payroll accuracy is non-negotiable (P1). Unit tests cover calculation correctness, E2E covers critical workflow chains only.</p>
+    </div>
+
+    <!-- 13. Observability -->
+    <div class="card" id="observability">
+      <div class="card-header">
+        <span class="adr-tag">ADR-010</span>
+        <h2>Observability Baseline</h2>
+        <p>Correlation IDs trace every request through structured logs and error tracking</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    req["<b>HTTP Request</b>"]
+    mid["<b>Correlation ID<br/>Middleware</b><br/>x-correlation-id<br/>or auto UUID"]
+
+    subgraph logging["Structured Logging (pino)"]
+        log["JSON log lines<br/><i>correlationId, module,<br/>action, userId, timestamp</i>"]
+    end
+
+    subgraph errors["Error Tracking (Sentry)"]
+        sentry["Unhandled exceptions<br/><i>environment, module tag,<br/>user context, Git SHA</i>"]
+    end
+
+    subgraph metrics["DB Metrics (Supabase)"]
+        dash["Query performance<br/>Connection pool<br/>Storage usage"]
+    end
+
+    req --> mid
+    mid --> logging
+    mid --> errors
+    mid --> metrics
+
+    style req fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+    style mid fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style logging fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style errors fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style metrics fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style log fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style sentry fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style dash fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> pino (structured JSON) + Sentry (error tracking) + Supabase dashboard (DB metrics) with correlation IDs. <strong>Why:</strong> Trace payroll failures without reading code line by line. No Datadog/Grafana — managed services only (P4).</p>
+    </div>
+
+    <!-- 14. Privacy & Consent -->
+    <div class="card" id="privacy-consent">
+      <div class="card-header">
+        <span class="adr-tag">ADR-017 + ADR-017a</span>
+        <h2>Privacy &amp; Consent — Three Phases</h2>
+        <p>LFPDPPP compliance built incrementally — Phase 1 unblocks LTO, Phase 2 tracks ARCO, Phase 3 enforces blocking</p>
+      </div>
+      <table class="phase-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Phase 1 (W2-W3)</th>
+            <th>Phase 2 (W8-W10)</th>
+            <th>Phase 3 (Q3+)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Scope</td><td>Consent + SIC Auth</td><td>ARCO Manual Workflow</td><td>Data Blocking + Retention</td></tr>
+          <tr><td>Tables</td><td>shared.consents<br/>shared.sic_authorizations</td><td>audit.arco_requests</td><td>blocked_at, retention_until<br/>on PII entities</td></tr>
+          <tr><td>Services</td><td>ConsentService<br/>(hasActiveSicAuth, grantConsent)</td><td>ArcoService<br/>(create, transition, list)</td><td>RLS for compliance role<br/>pg_cron cleanup</td></tr>
+          <tr><td>Unblocks</td><td>LTO credit (SIC queries)</td><td>ARCO SLA tracking<br/>(20+15 business days)</td><td>Contract breach suppression<br/>72-month retention</td></tr>
+          <tr><td>Effort</td><td>~1.5 days</td><td>~1 day</td><td>~1.5 days</td></tr>
+        </tbody>
+      </table>
+      <p class="card-footnote"><strong>Decision:</strong> Three-phase privacy implementation — consent first (unblocks LTO), ARCO second (compliance tracking), blocking third (enforcement). <strong>Why:</strong> LTO can't legally query SIC without consent. Phase 1 is the minimum viable compliance for Q2.</p>
+    </div>
+
+    <!-- 15. Containerization -->
+    <div class="card" id="containerization">
+      <div class="card-header">
+        <span class="adr-tag">ADR-018</span>
+        <h2>Containerization Strategy</h2>
+        <p>Multi-stage Dockerfile + docker-compose for local dev — same image runs on Railway today and Cloud Run tomorrow</p>
+      </div>
+      <pre class="mermaid">
+flowchart LR
+    subgraph dockerfile["Multi-Stage Dockerfile"]
+        s1["<b>Stage 1: deps</b><br/>node:20-alpine<br/>pnpm install --frozen-lockfile"]
+        s2["<b>Stage 2: build</b><br/>pnpm build<br/>TypeScript → dist/"]
+        s3["<b>Stage 3: production</b><br/>Non-root user (lafa)<br/>~80-100MB final image"]
+        s1 --> s2 --> s3
+    end
+
+    subgraph compose["docker-compose (Local Dev)"]
+        db["<b>db</b><br/>postgres:16-alpine<br/>port 5432<br/>persistent volume"]
+        dbtest["<b>db-test</b><br/>postgres:16-alpine<br/>port 5433<br/>tmpfs (ephemeral)"]
+    end
+
+    s3 --> railway["<b>Railway</b><br/>Q2 deploy"]
+    s3 -.-> cloudrun["<b>Cloud Run</b><br/>Future"]
+
+    style dockerfile fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style compose fill:#1A1A1A,stroke:#333333,stroke-width:1px
+
+    style s1 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style s2 fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style s3 fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+
+    style db fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style dbtest fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+
+    style railway fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style cloudrun fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> One Dockerfile, all environments — no vendor-specific build. <strong>Why:</strong> Same image deploys to Railway (today) and Cloud Run (future). Boot &lt;5s for Cloud Run viability. Portability principle (P2).</p>
+    </div>
+
+    <!-- ACT 3: PAYROLL — Core System #1 -->
+
+    <!-- 16. Payroll Data Flow -->
+    <div class="card" id="payroll-flow">
+      <div class="card-header">
+        <span class="adr-tag">Data Flow — Payroll</span>
+        <h2>Weekly Payroll Calculation Pipeline</h2>
+        <p>Step-by-step data flow from raw inputs to Runa export</p>
+      </div>
+      <pre class="mermaid">
+flowchart TD
+    subgraph inputs["Data Inputs"]
+        didi["<b>DiDi CSV</b><br/>Monday upload"]
+        checkin["<b>Check-in / Check-out</b><br/>Daily attendance"]
+        deductions["<b>Deductions</b><br/>Cash, incidents,<br/>fines, loans"]
+    end
+
+    parse["Parse &amp; normalize"]
+    trips["<b>Trips</b><br/>per shift per driver"]
+    shifts["<b>Shifts</b><br/>weekly hours"]
+
+    subgraph engine["Payroll Engine — Rules Evaluation"]
+        step1["1. Weekly billing<br/><i>Sum trips per driver</i>"]
+        step2["2. Goal check<br/><i>Bonus tabuladors by tier</i>"]
+        step3["3. Base salary<br/><i>$2,212 if goal met</i>"]
+        step4["4. Overtime<br/><i>If goal met + min hours</i>"]
+        step5["5. Bonuses<br/><i>Attendance + billing tier</i>"]
+        step6["6. Deductions<br/><i>Sum all lines, apply 30% cap</i>"]
+        step7["7. Carryovers<br/><i>30% cap excess &rarr; next week</i>"]
+        step1 --> step2 --> step3 --> step4 --> step5 --> step6 --> step7
+    end
+
+    summary["<b>Payroll Summary</b><br/>driver x week<br/>draft &rarr; reviewed &rarr; approved"]
+    export["<b>Export CSV</b><br/>pending &rarr; exported &rarr;<br/>confirmed | discrepancy"]
+    runa["<b>Runa HR</b><br/>Timbrado CFDI &rarr; Inbursa"]
+
+    didi --> parse --> trips
+    checkin --> shifts
+    trips --> engine
+    shifts --> engine
+    deductions --> engine
+    engine --> summary --> export --> runa
+
+    classDef active fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    classDef secondary fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    classDef dim fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+    classDef panel fill:#1A1A1A,stroke:#DB6336,color:#FFFFFF
+
+    class trips,shifts,summary active
+    class export,runa secondary
+    class didi,checkin,deductions,parse dim
+    class step1,step2,step3,step4,step5,step6,step7 panel
+
+    style inputs fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style engine fill:#1F1510,stroke:#DB6336,stroke-width:2px
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> 7-step pure-function engine from DiDi CSV to Runa export. <strong>Why:</strong> Payroll miscalculation is a binary risk (P1) — every step must be auditable and testable.</p>
+    </div>
+
+    <!-- 17. Payroll Rules 3-Tier -->
+    <div class="card" id="payroll-rules">
+      <div class="card-header">
+        <span class="adr-tag">ADR-015</span>
+        <h2>Payroll Rules — Three-Tier Classification</h2>
+        <p>Law constants in code, business rules in DB with temporal versioning, structural rules as type definitions</p>
+      </div>
+      <pre class="mermaid">
+flowchart TD
+    subgraph law["Tier 1: Law Constants (Code)"]
+        lawItems["30% deduction cap (Art. 110)<br/>Triple holiday rate (Art. 75)<br/>Max 9h overtime/week (Art. 68)"]
+    end
+
+    subgraph business["Tier 2: Business Rules (Database)"]
+        bizItems["Base salary: $2,212<br/>Billing bonus tabuladors<br/>Overtime min billing: $6,500<br/>Phone bonus: $200/month"]
+        temporal["<b>Temporal pattern</b><br/>effective_from / effective_to<br/>NULL = currently active"]
+    end
+
+    subgraph structural["Tier 3: Structural Rules (Code)"]
+        structItems["13 incidence categories<br/>Fleet categories (express, premiere)<br/>Shift types (morning, afternoon, night)<br/>Payroll period states"]
+    end
+
+    lawItems -- "Hardcoded constants<br/>Legal review to change" --> engine["<b>PayrollRulesService</b><br/>getRulesetForWeek(date)"]
+    bizItems -- "DB query<br/>Admin changes via UI" --> engine
+    temporal -.- bizItems
+    structItems -- "Type definitions<br/>Developer deploy to change" --> engine
+    engine --> calc["<b>calculateDriverPay()</b><br/>Pure function &mdash; no side effects"]
+
+    style law fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style business fill:#1F1510,stroke:#DB6336,stroke-width:2px
+    style structural fill:#1A1A1A,stroke:#333333,stroke-width:1px
+    style lawItems fill:#2A2A2A,stroke:#DB6336,color:#FFFFFF
+    style bizItems fill:#DB6336,stroke:#DB6336,color:#FFFFFF
+    style temporal fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
+    style structItems fill:#2A2A2A,stroke:#666666,color:#FFFFFF
+    style engine fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+    style calc fill:#DB6336,stroke:#DB6336,stroke-width:2px,color:#FFFFFF
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Law constants hardcoded, business rules in temporal DB, structural rules as types. <strong>Why:</strong> Marsha changes bonus tiers monthly — these can't require a deploy.</p>
+    </div>
+
+    <!-- 18. Payroll Period Lifecycle -->
+    <div class="card" id="payroll-lifecycle">
+      <div class="card-header">
+        <span class="adr-tag">ADR-011</span>
+        <h2>Payroll Period Lifecycle</h2>
+        <p>State machine: open through closed with revert paths</p>
+      </div>
+      <pre class="mermaid">
+stateDiagram-v2
+    [*] --> open
+    open --> draft : auto-draft calculations
+
+    draft --> reviewed : submit for review
+    draft --> open : revert for recalculation
+
+    reviewed --> approved : approve payroll
+    reviewed --> draft : corrections needed
+
+    approved --> closed : Runa export confirmed
+    closed --> [*]
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> 5-state machine with revert paths. <strong>Why:</strong> Corrections happen every week — the system must allow draft &rarr; review &rarr; approve without losing data.</p>
+    </div>
+
+    <!-- 19. Runa Export Lifecycle -->
+    <div class="card" id="runa-export">
+      <div class="card-header">
+        <span class="adr-tag">ADR-016</span>
+        <h2>Runa Export Lifecycle</h2>
+        <p>State machine for payroll export — pending through confirmed, with discrepancy path</p>
+      </div>
+      <pre class="mermaid">
+stateDiagram-v2
+    [*] --> pending
+    pending --> exported : CSV generated and downloaded
+
+    exported --> confirmed : Accountant verifies in Runa
+    exported --> discrepancy : Mismatch found
+
+    discrepancy --> pending : Corrections made, re-export
+
+    confirmed --> [*]
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> 4-state export lifecycle with discrepancy detection. <strong>Why:</strong> The accountant validates in Runa — mismatches must loop back, not disappear.</p>
+    </div>
+
+    <!-- ACT 4: LTO CREDIT CORE — Core System #2 -->
+
+    <!-- 20. LTO Contract Lifecycle -->
+    <div class="card" id="lto-lifecycle">
+      <div class="card-header">
+        <span class="adr-tag">ADR-011</span>
+        <h2>LTO Contract Lifecycle</h2>
+        <p>State machine: pending through completed or defaulted</p>
+      </div>
+      <pre class="mermaid">
+stateDiagram-v2
+    [*] --> pending
+    pending --> approved : underwriting passed
+
+    approved --> active : contract signed
+
+    active --> delinquent : missed payments
+    active --> completed : all payments made
+
+    delinquent --> active : cured — payments caught up
+    delinquent --> defaulted : vehicle recovered
+
+    completed --> [*]
+    defaulted --> [*]
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> 6-state lifecycle from pending to completed/defaulted. <strong>Why:</strong> Each state triggers different obligations — legal, financial, and operational.</p>
+    </div>
+
+    <!-- 21. Payment Schedule States -->
+    <div class="card" id="payment-schedule">
+      <div class="card-header">
+        <span class="adr-tag">LTO Credit Core</span>
+        <h2>Payment Schedule States</h2>
+        <p>Per-period payment status — drives contract-level delinquency detection</p>
+      </div>
+      <pre class="mermaid">
+stateDiagram-v2
+    [*] --> upcoming
+    upcoming --> due : Due date reached
+
+    due --> paid : Full payment received
+    due --> partial : Partial payment received
+    due --> overdue : Past due date, no payment
+
+    partial --> paid : Remaining balance paid
+    partial --> overdue : Past due date
+
+    overdue --> paid : Late payment received
+    overdue --> waived : Payment forgiven
+
+    paid --> [*]
+    waived --> [*]
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Per-period tracking with partial payment support. <strong>Why:</strong> Drivers pay weekly — partial payments are common and must be tracked accurately.</p>
+    </div>
+
+    <!-- 22. Collections Escalation -->
+    <div class="card" id="collections">
+      <div class="card-header">
+        <span class="adr-tag">LTO Credit Core</span>
+        <h2>Collections Escalation Workflow</h2>
+        <p>State machine for delinquent contracts — rehabilitative approach, not punitive</p>
+      </div>
+      <pre class="mermaid">
+stateDiagram-v2
+    [*] --> reminder
+    reminder --> warning : No response
+
+    warning --> hold : Continued non-payment
+    warning --> cured : Payments caught up
+
+    hold --> recovery : Vehicle recovery initiated
+    hold --> cured : Payments caught up
+
+    recovery --> recovered : Vehicle recovered
+    recovery --> cured : Payments caught up
+
+    recovered --> [*]
+    cured --> [*]
+      </pre>
+      <p class="card-footnote"><strong>Decision:</strong> Escalation from reminder to recovery with cure paths at every stage. <strong>Why:</strong> Rehabilitative, not punitive — we want the driver back in the car, not the car back in the lot.</p>
+    </div>
+
+  </main>
+
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.esm.min.mjs';
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        primaryColor: '#DB6336',
+        primaryTextColor: '#FFFFFF',
+        primaryBorderColor: '#DB6336',
+        lineColor: '#666666',
+        secondaryColor: '#2A2A2A',
+        tertiaryColor: '#1F1510',
+        fontFamily: 'Inter Tight',
+        fontSize: '14px',
+        labelBoxBorderColor: '#333333',
+        nodeBorder: '#DB6336',
+        mainBkg: '#DB6336',
+        clusterBkg: '#1F1510',
+        clusterBorder: '#DB6336',
+        titleColor: '#FFFFFF',
+        edgeLabelBackground: '#1A1A1A',
+      },
+      flowchart: {
+        htmlLabels: true,
+        curve: 'basis',
+        padding: 16,
+      },
+      stateDiagram: {
+        htmlLabels: true,
+      },
+    });
+  </script>
+
+  <script>
+    const tocLinks = document.querySelectorAll('.toc a');
+    const cards = document.querySelectorAll('.card[id]');
+
+    const tocMap = new Map();
+    tocLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) tocMap.set(href.slice(1), link);
+    });
+
+    let currentActive = null;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && entry.target.id) {
+          if (currentActive) currentActive.classList.remove('active');
+          currentActive = tocMap.get(entry.target.id) || null;
+          if (currentActive) currentActive.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -60% 0px' });
+
+    cards.forEach(card => observer.observe(card));
+  </script>
+
+</body>
+</html>
