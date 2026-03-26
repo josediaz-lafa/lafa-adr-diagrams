@@ -341,40 +341,40 @@
 
   <header>
     <h1>LAFA</h1>
-    <p class="subtitle">Architecture Decision Record Diagrams</p>
+    <p class="subtitle">Technical Architecture — Visual Reference</p>
     <p class="instructions">Screenshot each card and paste into Google Docs</p>
   </header>
 
   <div class="layout">
   <nav class="toc">
     <div class="toc-title">Contents</div>
-    <div class="toc-section">Foundations</div>
-    <a href="#principles">Principle Hierarchy</a>
-    <a href="#system-overview">System Landscape</a>
+    <div class="toc-section">Strategic Foundation</div>
+    <a href="#principles">Guiding Principles</a>
+    <a href="#system-overview">System Overview</a>
     <a href="#module-map">Module Map</a>
-    <a href="#decisions-summary">Decisions Summary</a>
-    <a href="#phase-table">Infrastructure Evolution</a>
+    <a href="#decisions-summary">Decision Summary</a>
+    <a href="#phase-table">Scaling Roadmap</a>
     <a href="#migration-path">Migration Path</a>
-    <a href="#cost-breakdown">Cost Breakdown</a>
-    <a href="#ai-architecture">AI Architecture</a>
-    <div class="toc-section">Architecture</div>
-    <a href="#module-arch">Module Architecture</a>
-    <a href="#adapter-pattern">Adapter Pattern</a>
-    <a href="#auth-rls">Auth &amp; RLS</a>
-    <div class="toc-section">Cross-Cutting</div>
+    <a href="#cost-breakdown">Cost Projection</a>
+    <a href="#ai-architecture">AI-First Stack</a>
+    <div class="toc-section">System Patterns</div>
+    <a href="#module-arch">Module Boundaries</a>
+    <a href="#adapter-pattern">External Integrations</a>
+    <a href="#auth-rls">Auth &amp; Access Control</a>
+    <div class="toc-section">Platform</div>
     <a href="#testing-strategy">Testing Strategy</a>
-    <a href="#observability">Observability</a>
-    <a href="#privacy-consent">Privacy &amp; Consent</a>
-    <a href="#containerization">Containerization</a>
-    <div class="toc-section">Payroll</div>
-    <a href="#payroll-flow">Payroll Pipeline</a>
-    <a href="#payroll-rules">Rules Classification</a>
-    <a href="#payroll-lifecycle">Payroll Lifecycle</a>
+    <a href="#observability">Logging &amp; Monitoring</a>
+    <a href="#privacy-consent">Privacy Compliance</a>
+    <a href="#containerization">Build &amp; Deploy</a>
+    <div class="toc-section">Payroll Engine</div>
+    <a href="#payroll-flow">Calculation Pipeline</a>
+    <a href="#payroll-rules">Rule Tiers</a>
+    <a href="#payroll-lifecycle">Period Lifecycle</a>
     <a href="#runa-export">Runa Export</a>
     <div class="toc-section">LTO Credit</div>
-    <a href="#lto-lifecycle">LTO Lifecycle</a>
-    <a href="#payment-schedule">Payment Schedule</a>
-    <a href="#collections">Collections</a>
+    <a href="#lto-lifecycle">Contract Lifecycle</a>
+    <a href="#payment-schedule">Payment States</a>
+    <a href="#collections">Collections Escalation</a>
   </nav>
   <main>
 
@@ -384,8 +384,8 @@
     <div class="card" id="principles">
       <div class="card-header">
         <span class="adr-tag">ADR-000</span>
-        <h2>Principle Hierarchy</h2>
-        <p>When principles conflict, resolve in this order — P1 always wins</p>
+        <h2>Guiding Principles</h2>
+        <p>Priority order — P1 always wins when principles conflict</p>
       </div>
       <pre class="mermaid">
 graph TD
@@ -409,8 +409,8 @@ graph TD
     <!-- 2. System Overview -->
     <div class="card" id="system-overview">
       <div class="card-header">
-        <span class="adr-tag">System Overview</span>
-        <h2>LAFA System Landscape</h2>
+        <span class="adr-tag">Overview</span>
+        <h2>System Overview</h2>
         <p>All systems and how they connect — solid = Q2 active, dashed = future</p>
       </div>
       <pre class="mermaid">
@@ -461,8 +461,9 @@ graph TD
     classDef future fill:#1A1A1A,stroke:#DB6336,stroke-dasharray:5 5,color:#9CA3AF
 
     class admin,didi,kiban,monolith,metabase active
-    class whatsapp,didiapi,runa future
-    class sentry,db secondary
+    class whatsapp,didiapi future
+    class sentry,runa secondary
+    class db active
 
     style clients fill:#1F1510,stroke:#DB6336,stroke-width:2px
     style inputs fill:#1A1A1A,stroke:#333333,stroke-width:1px
@@ -478,8 +479,8 @@ graph TD
     <div class="card" id="module-map">
       <div class="card-header">
         <span class="adr-tag">ADR-012</span>
-        <h2>LAFA OS Module Map</h2>
-        <p>11 modules across 5 layers — solid = Q2, dashed = future</p>
+        <h2>Module Map</h2>
+        <p>11 modules, 5 layers — solid = Q2, ghost = future</p>
       </div>
       <div class="module-grid">
         <div class="layer-group layer-ops">
@@ -545,9 +546,9 @@ graph TD
     <!-- 4. Architecture Decisions Summary -->
     <div class="card" id="decisions-summary">
       <div class="card-header">
-        <span class="adr-tag">ADR Summary</span>
-        <h2>Architecture Decisions at a Glance</h2>
-        <p>Every major tech decision and why — one line each</p>
+        <span class="adr-tag">Summary</span>
+        <h2>Decision Summary</h2>
+        <p>Every major tech choice and its rationale — one line each</p>
       </div>
       <table class="phase-table">
         <thead>
@@ -575,8 +576,8 @@ graph TD
     <!-- 5. Infrastructure Evolution -->
     <div class="card" id="phase-table">
       <div class="card-header">
-        <span class="adr-tag">Architecture Evolution</span>
-        <h2>Infrastructure Evolution — Three Phases</h2>
+        <span class="adr-tag">Evolution</span>
+        <h2>Scaling Roadmap</h2>
         <p>Trigger-based migration — metrics drive architecture changes, not calendar dates</p>
       </div>
       <table class="phase-table">
@@ -589,14 +590,14 @@ graph TD
           </tr>
         </thead>
         <tbody>
-          <tr><td>Scale</td><td>250 &rarr; 2,000 vehicles</td><td>2,000 &rarr; 30,000</td><td>30,000 &rarr; 200,000</td></tr>
+          <tr><td>Scale</td><td>250 &rarr; 2,000 vehicles</td><td>2,000 &rarr; 20,000</td><td>20,000 &rarr; 200,000</td></tr>
           <tr><td>Revenue</td><td>$6M &rarr; $16M ARR</td><td>$16M &rarr; $75M</td><td>$75M &rarr; $400M</td></tr>
           <tr><td>Team</td><td>1.5 devs</td><td>4-6 devs (post Series A)</td><td>10+ engineers</td></tr>
-          <tr><td>Architecture</td><td>Modular monolith (Nest.js)</td><td>Modular monolith (same)</td><td>Microservices extraction</td></tr>
+          <tr><td>Architecture</td><td>Modular monolith (Nest.js)</td><td>Hybrid (monolith + satellites)</td><td>Fully decomposed microservices</td></tr>
           <tr><td>Database</td><td>Supabase (managed Postgres)</td><td>GCP Cloud SQL + BigQuery</td><td>Cloud SQL per-tenant + BigQuery</td></tr>
           <tr><td>Hosting</td><td>Railway ($25/mo)</td><td>Cloud Run ($130-300/mo)</td><td>Cloud Run per-service</td></tr>
           <tr><td>Events</td><td>CSV batch (weekly)</td><td>Pub/Sub (real-time)</td><td>Pub/Sub + Cloud Tasks</td></tr>
-          <tr><td>AI / ML</td><td>Claude API inline ($40/mo)</td><td>Vertex AI inference</td><td>Production ML models</td></tr>
+          <tr><td>AI / ML</td><td>Claude API inline ($2-50/mo)</td><td>Vertex AI inference</td><td>Production ML models</td></tr>
           <tr><td>Multi-tenancy</td><td>Single org (org_id ready)</td><td>Org-scoped RLS active</td><td>Per-tenant DB for large customers</td></tr>
           <tr><td>Migration trigger</td><td>&mdash;</td><td>Data &gt;50GB, first external customer, or GCP credits</td><td>Team &gt;4, modules &gt;5</td></tr>
         </tbody>
@@ -608,7 +609,7 @@ graph TD
     <div class="card" id="migration-path">
       <div class="card-header">
         <span class="adr-tag">ADR-002</span>
-        <h2>Infrastructure Migration Path</h2>
+        <h2>Database Migration Path</h2>
         <p>Same Postgres engine at every stage — no application code changes</p>
       </div>
       <pre class="mermaid">
@@ -631,28 +632,28 @@ flowchart LR
     <div class="card" id="cost-breakdown">
       <div class="card-header">
         <span class="adr-tag">Investment</span>
-        <h2>Tech Cost Breakdown by Phase</h2>
-        <p>Monthly infrastructure investment grouped by category — scales sub-linearly with fleet size</p>
+        <h2>Monthly Cost Projection</h2>
+        <p>Infrastructure investment by phase — scales sub-linearly with fleet</p>
       </div>
       <table class="phase-table">
         <thead>
           <tr>
             <th>Category</th>
             <th>Phase 1 (Q2-Q4 2026)<br/><span class="table-hint">250 &rarr; 2,000 cars</span></th>
-            <th>Phase 2 (2027)<br/><span class="table-hint">2K &rarr; 30K cars</span></th>
-            <th>Phase 3 (2028+)<br/><span class="table-hint">30K &rarr; 200K cars</span></th>
+            <th>Phase 2 (2027)<br/><span class="table-hint">2K &rarr; 20K cars</span></th>
+            <th>Phase 3 (2028+)<br/><span class="table-hint">20K &rarr; 200K cars</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Infrastructure</strong><br/><span class="table-hint">Hosting + DB + Analytics</span></td>
-            <td>$50/mo<br/><span class="table-hint">Supabase $25 + Railway $25</span></td>
-            <td>$270-660/mo<br/><span class="table-hint">Cloud SQL + Cloud Run</span></td>
-            <td>$3,000+/mo<br/><span class="table-hint">GCP scaled</span></td>
+            <td>$45-135/mo<br/><span class="table-hint">Supabase $25-85 + Railway $20-35 + Replica $0-15</span></td>
+            <td>$322-790/mo<br/><span class="table-hint">Cloud SQL + Cloud Run</span></td>
+            <td>$5,000+/mo<br/><span class="table-hint">GCP scaled</span></td>
           </tr>
           <tr>
             <td><strong>AI &amp; APIs</strong><br/><span class="table-hint">Claude Haiku/Sonnet, Vertex</span></td>
-            <td>$30-50/mo</td>
+            <td>$2-50/mo</td>
             <td>$50-100/mo</td>
             <td>$500+/mo</td>
           </tr>
@@ -670,21 +671,21 @@ flowchart LR
           </tr>
           <tr class="table-total">
             <td><strong>Total</strong></td>
-            <td><strong>$410-430/mo</strong></td>
-            <td><strong>$870-1,420/mo</strong></td>
-            <td><strong>$4,600+/mo</strong></td>
+            <td><strong>$377-515/mo</strong></td>
+            <td><strong>$922-1,440/mo</strong></td>
+            <td><strong>$6,600+/mo</strong></td>
           </tr>
         </tbody>
       </table>
-      <p class="card-footnote"><strong>Decision:</strong> Dev tools (Claude Max) are the largest investment at $300/mo — AI-first velocity is the strategy. <strong>Why:</strong> Infrastructure stays under $70/mo in Phase 1 thanks to managed services. The bet is on developer productivity, not infrastructure.</p>
+      <p class="card-footnote"><strong>Decision:</strong> Dev tools (Claude Max) are the largest investment at $300/mo — AI-first velocity is the strategy. <strong>Why:</strong> Infrastructure starts at $45/mo (275 cars), scaling to $135/mo at 2,000 cars — add read replica and compute upgrades only when needed. The bet is on developer productivity, not infrastructure.</p>
     </div>
 
     <!-- 8. AI / MCP Architecture -->
     <div class="card" id="ai-architecture">
       <div class="card-header">
-        <span class="adr-tag">ADR-014a + MCP</span>
-        <h2>AI-First Development Architecture</h2>
-        <p>How MCP servers, database, and AI agents connect — 1.5 devs, enterprise-grade output</p>
+        <span class="adr-tag">ADR-014a</span>
+        <h2>AI-First Stack</h2>
+        <p>MCP servers, AI agents, and dev tools — 1.5 devs, enterprise output</p>
       </div>
       <pre class="mermaid">
 graph TD
@@ -779,9 +780,9 @@ graph TD
     <!-- 9. Module Architecture -->
     <div class="card" id="module-arch">
       <div class="card-header">
-        <span class="adr-tag">ADR-001 + ADR-006</span>
-        <h2>Module Communication Rules</h2>
-        <p>Q2 module dependencies — no cross-schema JOINs, service interfaces only, audit trail on state changes</p>
+        <span class="adr-tag">ADR-001 / 006</span>
+        <h2>Module Boundaries</h2>
+        <p>Service interfaces between schemas — no cross-schema JOINs, audit trail on state changes</p>
       </div>
       <pre class="mermaid">
 graph TD
@@ -824,7 +825,7 @@ graph TD
     <div class="card" id="adapter-pattern">
       <div class="card-header">
         <span class="adr-tag">ADR-013</span>
-        <h2>Integration Adapter Pattern</h2>
+        <h2>External Integrations</h2>
         <p>Same interface per external system, swappable implementation — CSV today, API tomorrow</p>
       </div>
       <pre class="mermaid">
@@ -839,7 +840,7 @@ flowchart LR
         runaIface["<b>RunaAdapter</b><br/>exportPayroll()"]
         didiIface["<b>DiDiAdapter</b><br/>importTrips()"]
         kibanIface["<b>KibanAdapter</b><br/>queryBureau()"]
-        respondIface["<b>RespondIoAdapter</b><br/>sendReminder()"]
+        respondIface["<b>RespondIoAdapter</b><br/>sendReminder()<br/>receiveWebhook()"]
     end
 
     subgraph impls["Implementations (CSV &rarr; API)"]
@@ -849,10 +850,10 @@ flowchart LR
         didiApi["<b>DiDiApiAdapter</b><br/>Future"]
     end
 
-    payrollSvc -- "injects" --> runaIface
-    daeSvc -- "injects" --> didiIface
-    ltoSvc -- "injects" --> kibanIface
-    ltoSvc -- "injects" --> respondIface
+    payrollSvc -- "→ export" --> runaIface
+    daeSvc -- "← import" --> didiIface
+    ltoSvc -- "← query" --> kibanIface
+    ltoSvc -- "↔ send / receive" --> respondIface
 
     runaIface -- "implements" --> runaCsv
     runaIface -. "swap" .-> runaApi
@@ -871,15 +872,15 @@ flowchart LR
     style adapters fill:#1A1A1A,stroke:#333333,stroke-width:2px
     style impls fill:#1A1A1A,stroke:#333333,stroke-width:1px
       </pre>
-      <p class="card-footnote"><strong>Decision:</strong> One adapter interface per external system, CSV implementation today. <strong>Why:</strong> Swap to API when DiDi/Runa are ready — zero business logic changes.</p>
+      <p class="card-footnote"><strong>Decision:</strong> One adapter interface per external system, CSV implementation today. Arrows show data-flow direction (← inbound, → outbound, ↔ bidirectional). <strong>Why:</strong> Swap to API when DiDi/Runa are ready — zero business logic changes.</p>
     </div>
 
     <!-- 11. Auth & RLS Flow -->
     <div class="card" id="auth-rls">
       <div class="card-header">
         <span class="adr-tag">ADR-019</span>
-        <h2>Auth &amp; RLS Flow</h2>
-        <p>Custom auth: Passport.js validates credentials, JWT carries identity, RLS enforces row-level access</p>
+        <h2>Auth &amp; Access Control</h2>
+        <p>Passport.js validates, JWT carries identity, Postgres RLS enforces row-level access</p>
       </div>
       <pre class="mermaid">
 flowchart TD
@@ -924,8 +925,8 @@ flowchart TD
     <!-- 12. Testing Strategy -->
     <div class="card" id="testing-strategy">
       <div class="card-header">
-        <span class="adr-tag">ADR-009 + ADR-009a</span>
-        <h2>Testing Strategy — Three Tiers</h2>
+        <span class="adr-tag">ADR-009 / 009a</span>
+        <h2>Testing Strategy</h2>
         <p>Unit tests guard calculations, integration tests guard schemas, E2E tests guard workflows — AI-authored via Playwright MCP</p>
       </div>
       <pre class="mermaid">
@@ -969,7 +970,7 @@ flowchart TD
     <div class="card" id="observability">
       <div class="card-header">
         <span class="adr-tag">ADR-010</span>
-        <h2>Observability Baseline</h2>
+        <h2>Logging &amp; Error Tracking</h2>
         <p>Correlation IDs trace every request through structured logs and error tracking</p>
       </div>
       <pre class="mermaid">
@@ -1009,8 +1010,8 @@ flowchart LR
     <!-- 14. Privacy & Consent -->
     <div class="card" id="privacy-consent">
       <div class="card-header">
-        <span class="adr-tag">ADR-017 + ADR-017a</span>
-        <h2>Privacy &amp; Consent — Three Phases</h2>
+        <span class="adr-tag">ADR-017 / 017a</span>
+        <h2>Privacy Compliance Roadmap</h2>
         <p>LFPDPPP compliance built incrementally — Phase 1 unblocks LTO, Phase 2 tracks ARCO, Phase 3 enforces blocking</p>
       </div>
       <table class="phase-table">
@@ -1037,8 +1038,8 @@ flowchart LR
     <div class="card" id="containerization">
       <div class="card-header">
         <span class="adr-tag">ADR-018</span>
-        <h2>Containerization Strategy</h2>
-        <p>Multi-stage Dockerfile + docker-compose for local dev — same image runs on Railway today and Cloud Run tomorrow</p>
+        <h2>Build &amp; Deploy Pipeline</h2>
+        <p>Multi-stage Docker build — same image on Railway today, Cloud Run tomorrow</p>
       </div>
       <pre class="mermaid">
 flowchart LR
@@ -1078,9 +1079,9 @@ flowchart LR
     <!-- 16. Payroll Data Flow -->
     <div class="card" id="payroll-flow">
       <div class="card-header">
-        <span class="adr-tag">Data Flow — Payroll</span>
-        <h2>Weekly Payroll Calculation Pipeline</h2>
-        <p>Step-by-step data flow from raw inputs to Runa export</p>
+        <span class="adr-tag">Data Flow</span>
+        <h2>Payroll Data Flow</h2>
+        <p>From DiDi CSV to Runa export — 7 calculation steps</p>
       </div>
       <pre class="mermaid">
 flowchart TD
@@ -1136,7 +1137,7 @@ flowchart TD
     <div class="card" id="payroll-rules">
       <div class="card-header">
         <span class="adr-tag">ADR-015</span>
-        <h2>Payroll Rules — Three-Tier Classification</h2>
+        <h2>Payroll Rule Classification</h2>
         <p>Law constants in code, business rules in DB with temporal versioning, structural rules as type definitions</p>
       </div>
       <pre class="mermaid">
@@ -1250,8 +1251,8 @@ stateDiagram-v2
     <!-- 21. Payment Schedule States -->
     <div class="card" id="payment-schedule">
       <div class="card-header">
-        <span class="adr-tag">LTO Credit Core</span>
-        <h2>Payment Schedule States</h2>
+        <span class="adr-tag">Credit Core</span>
+        <h2>Payment Tracking States</h2>
         <p>Per-period payment status — drives contract-level delinquency detection</p>
       </div>
       <pre class="mermaid">
@@ -1278,8 +1279,8 @@ stateDiagram-v2
     <!-- 22. Collections Escalation -->
     <div class="card" id="collections">
       <div class="card-header">
-        <span class="adr-tag">LTO Credit Core</span>
-        <h2>Collections Escalation Workflow</h2>
+        <span class="adr-tag">Credit Core</span>
+        <h2>Collections Escalation</h2>
         <p>State machine for delinquent contracts — rehabilitative approach, not punitive</p>
       </div>
       <pre class="mermaid">
